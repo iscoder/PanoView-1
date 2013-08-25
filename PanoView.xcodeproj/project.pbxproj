@@ -25,6 +25,7 @@
 		F68EB84B17C9BF2300C4BE78 /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = F68EB84A17C9BF2300C4BE78 /* second.png */; };
 		F68EB84D17C9BF2300C4BE78 /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F68EB84C17C9BF2300C4BE78 /* second@2x.png */; };
 		F68EB85817CA26AD00C4BE78 /* PVMyVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = F68EB85717CA26AD00C4BE78 /* PVMyVideoController.m */; };
+		F68EB85A17CA346800C4BE78 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68EB85917CA346800C4BE78 /* MediaPlayer.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		F68EB84C17C9BF2300C4BE78 /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
 		F68EB85617CA26AD00C4BE78 /* PVMyVideoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVMyVideoController.h; sourceTree = "<group>"; };
 		F68EB85717CA26AD00C4BE78 /* PVMyVideoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVMyVideoController.m; sourceTree = "<group>"; };
+		F68EB85917CA346800C4BE78 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F68EB85A17CA346800C4BE78 /* MediaPlayer.framework in Frameworks */,
 				F68EB82317C9BF2300C4BE78 /* UIKit.framework in Frameworks */,
 				F68EB82517C9BF2300C4BE78 /* Foundation.framework in Frameworks */,
 				F68EB82717C9BF2300C4BE78 /* CoreGraphics.framework in Frameworks */,
@@ -72,6 +75,7 @@
 		F68EB81617C9BF2300C4BE78 = {
 			isa = PBXGroup;
 			children = (
+				F68EB85917CA346800C4BE78 /* MediaPlayer.framework */,
 				F68EB82817C9BF2300C4BE78 /* PanoView */,
 				F68EB82117C9BF2300C4BE78 /* Frameworks */,
 				F68EB82017C9BF2300C4BE78 /* Products */,

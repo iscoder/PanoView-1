@@ -11,6 +11,7 @@
 @implementation PVMyVideoController
 {
     NSArray *myVideoList;
+    NSString *docPath;
 }
 
 - (void) viewDidLoad
@@ -18,11 +19,8 @@
     [super viewDidLoad];
     // get all files from Document directory
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *path = [paths objectAtIndex:0];
-    
-    myVideoList = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:path error:nil];
-    NSLog(@"files array %@", path);
-                
+    docPath = [paths objectAtIndex:0];
+    myVideoList = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:docPath error:nil];
 }
 
 - (NSInteger) tableView:(UITableView *)tableview numberOfRowsInSection:(NSInteger)section
@@ -37,8 +35,21 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:myVideoIdentifier ];
     }
-    cell.textLabel.text = [myVideoList objectAtIndex:indexPath.row];
+
+    NSString *videoFileName = [myVideoList objectAtIndex:indexPath.row];
+    cell.textLabel.text = videoFileName;
+    
+    NSURL *videoURL = [NSURL fileURLWithPath:[docPath stringByAppendingPathComponent:videoFileName]];
+    
+    MPMoviePlayerController *player = [[MPMoviePlayerController alloc] initWithContentURL:videoURL];
+    
+    cell.imageView.image = [player thumbnailImageAtTime:1.0 timeOption:MPMovieTimeOptionNearestKeyFrame];
+    
+    //Player autoplays audio on init
+    [player stop];
+    
     return cell;
 }
 
 @end
+

@@ -8,19 +8,42 @@
         <scene sceneID="pDc-gL-BEl">
             <objects>
                 <tableViewController id="HyQ-Pz-3Jd" customClass="PVMyVideoController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="G3N-zT-mGC">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="62" sectionHeaderHeight="22" sectionFooterHeight="22" id="G3N-zT-mGC">
                         <rect key="frame" x="0.0" y="20" width="320" height="499"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="avy-7A-8DD">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="62" id="avy-7A-8DD">
+                                <rect key="frame" x="0.0" y="22" width="320" height="62"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="61"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gnN-5X-B6O">
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="95" id="6Dh-zU-qO0"/>
+                                                <constraint firstAttribute="height" constant="61" id="waC-al-n6s"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="101" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aCV-Zb-epd">
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="40" id="QSu-E4-Quq"/>
+                                                <constraint firstAttribute="width" constant="212" id="jF6-mF-tpS"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <constraints>
+                                    <constraint firstItem="gnN-5X-B6O" firstAttribute="top" secondItem="avy-7A-8DD" secondAttribute="top" type="default" id="CbL-bt-2qN"/>
+                                    <constraint firstItem="aCV-Zb-epd" firstAttribute="leading" secondItem="avy-7A-8DD" secondAttribute="leading" constant="99" id="IVx-MM-IGX"/>
+                                    <constraint firstItem="gnN-5X-B6O" firstAttribute="centerY" secondItem="aCV-Zb-epd" secondAttribute="centerY" type="default" id="Wdz-oq-Ir7"/>
+                                    <constraint firstItem="gnN-5X-B6O" firstAttribute="leading" secondItem="avy-7A-8DD" secondAttribute="leading" type="default" id="rg9-VQ-qqc"/>
+                                </constraints>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -85,14 +108,6 @@
             <point key="canvasLocation" x="71" y="24"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="PVMyVideoController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PVMyVideoController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
