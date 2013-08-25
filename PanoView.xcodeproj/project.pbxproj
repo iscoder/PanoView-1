@@ -24,6 +24,7 @@
 		F68EB84917C9BF2300C4BE78 /* PVSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F68EB84817C9BF2300C4BE78 /* PVSecondViewController.m */; };
 		F68EB84B17C9BF2300C4BE78 /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = F68EB84A17C9BF2300C4BE78 /* second.png */; };
 		F68EB84D17C9BF2300C4BE78 /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F68EB84C17C9BF2300C4BE78 /* second@2x.png */; };
+		F68EB85817CA26AD00C4BE78 /* PVMyVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = F68EB85717CA26AD00C4BE78 /* PVMyVideoController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,8 @@
 		F68EB84817C9BF2300C4BE78 /* PVSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PVSecondViewController.m; sourceTree = "<group>"; };
 		F68EB84A17C9BF2300C4BE78 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
 		F68EB84C17C9BF2300C4BE78 /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
+		F68EB85617CA26AD00C4BE78 /* PVMyVideoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVMyVideoController.h; sourceTree = "<group>"; };
+		F68EB85717CA26AD00C4BE78 /* PVMyVideoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVMyVideoController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +102,8 @@
 				F68EB83117C9BF2300C4BE78 /* PVAppDelegate.h */,
 				F68EB83217C9BF2300C4BE78 /* PVAppDelegate.m */,
 				F68EB83A17C9BF2300C4BE78 /* MainStoryboard_iPhone.storyboard */,
+				F68EB85617CA26AD00C4BE78 /* PVMyVideoController.h */,
+				F68EB85717CA26AD00C4BE78 /* PVMyVideoController.m */,
 				F68EB83D17C9BF2300C4BE78 /* MainStoryboard_iPad.storyboard */,
 				F68EB84017C9BF2300C4BE78 /* PVFirstViewController.h */,
 				F68EB84117C9BF2300C4BE78 /* PVFirstViewController.m */,
@@ -203,6 +208,7 @@
 				F68EB83317C9BF2300C4BE78 /* PVAppDelegate.m in Sources */,
 				F68EB84217C9BF2300C4BE78 /* PVFirstViewController.m in Sources */,
 				F68EB84917C9BF2300C4BE78 /* PVSecondViewController.m in Sources */,
+				F68EB85817CA26AD00C4BE78 /* PVMyVideoController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
