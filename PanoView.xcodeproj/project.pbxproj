@@ -9,14 +9,14 @@
 /* Begin PBXBuildFile section */
 		F68C8C6617CB9E8C0071F4A9 /* APLEAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C8C6017CB9E8C0071F4A9 /* APLEAGLView.m */; };
 		F68C8C6717CB9E8C0071F4A9 /* APLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C8C6217CB9E8C0071F4A9 /* APLViewController.m */; };
-		F68C8C6817CB9E8C0071F4A9 /* Shader.fsh in Sources */ = {isa = PBXBuildFile; fileRef = F68C8C6417CB9E8C0071F4A9 /* Shader.fsh */; };
-		F68C8C6917CB9E8C0071F4A9 /* Shader.vsh in Sources */ = {isa = PBXBuildFile; fileRef = F68C8C6517CB9E8C0071F4A9 /* Shader.vsh */; };
 		F68C8C6B17CB9F8A0071F4A9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68C8C6A17CB9F8A0071F4A9 /* QuartzCore.framework */; };
 		F68C8C6D17CB9FA70071F4A9 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68C8C6C17CB9FA70071F4A9 /* CoreVideo.framework */; };
 		F68C8C6F17CB9FB90071F4A9 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68C8C6E17CB9FB90071F4A9 /* CoreMedia.framework */; };
 		F68C8C7117CB9FE10071F4A9 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68C8C7017CB9FE10071F4A9 /* OpenGLES.framework */; };
 		F68C8C7317CB9FFE0071F4A9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68C8C7217CB9FFE0071F4A9 /* AVFoundation.framework */; };
 		F68C8C7517CBA00F0071F4A9 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68C8C7417CBA00F0071F4A9 /* MobileCoreServices.framework */; };
+		F68C8C7817CBBEFC0071F4A9 /* Shader.fsh in Sources */ = {isa = PBXBuildFile; fileRef = F68C8C7617CBBEFC0071F4A9 /* Shader.fsh */; };
+		F68C8C7917CBBEFC0071F4A9 /* Shader.vsh in Sources */ = {isa = PBXBuildFile; fileRef = F68C8C7717CBBEFC0071F4A9 /* Shader.vsh */; };
 		F68EB82317C9BF2300C4BE78 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68EB82217C9BF2300C4BE78 /* UIKit.framework */; };
 		F68EB82517C9BF2300C4BE78 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68EB82417C9BF2300C4BE78 /* Foundation.framework */; };
 		F68EB82717C9BF2300C4BE78 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68EB82617C9BF2300C4BE78 /* CoreGraphics.framework */; };
@@ -43,14 +43,14 @@
 		F68C8C6017CB9E8C0071F4A9 /* APLEAGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APLEAGLView.m; sourceTree = "<group>"; };
 		F68C8C6117CB9E8C0071F4A9 /* APLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APLViewController.h; sourceTree = "<group>"; };
 		F68C8C6217CB9E8C0071F4A9 /* APLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APLViewController.m; sourceTree = "<group>"; };
-		F68C8C6417CB9E8C0071F4A9 /* Shader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.fsh; sourceTree = "<group>"; };
-		F68C8C6517CB9E8C0071F4A9 /* Shader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.vsh; sourceTree = "<group>"; };
 		F68C8C6A17CB9F8A0071F4A9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F68C8C6C17CB9FA70071F4A9 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		F68C8C6E17CB9FB90071F4A9 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		F68C8C7017CB9FE10071F4A9 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		F68C8C7217CB9FFE0071F4A9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		F68C8C7417CBA00F0071F4A9 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		F68C8C7617CBBEFC0071F4A9 /* Shader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.fsh; sourceTree = "<group>"; };
+		F68C8C7717CBBEFC0071F4A9 /* Shader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.vsh; sourceTree = "<group>"; };
 		F68EB81F17C9BF2300C4BE78 /* PanoView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PanoView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F68EB82217C9BF2300C4BE78 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F68EB82417C9BF2300C4BE78 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -100,15 +100,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F68C8C6317CB9E8C0071F4A9 /* Shaders */ = {
-			isa = PBXGroup;
-			children = (
-				F68C8C6417CB9E8C0071F4A9 /* Shader.fsh */,
-				F68C8C6517CB9E8C0071F4A9 /* Shader.vsh */,
-			);
-			path = Shaders;
-			sourceTree = "<group>";
-		};
 		F68EB81617C9BF2300C4BE78 = {
 			isa = PBXGroup;
 			children = (
@@ -152,8 +143,9 @@
 				F68C8C5F17CB9E8C0071F4A9 /* APLEAGLView.h */,
 				F68C8C6017CB9E8C0071F4A9 /* APLEAGLView.m */,
 				F68C8C6117CB9E8C0071F4A9 /* APLViewController.h */,
+				F68C8C7617CBBEFC0071F4A9 /* Shader.fsh */,
+				F68C8C7717CBBEFC0071F4A9 /* Shader.vsh */,
 				F68C8C6217CB9E8C0071F4A9 /* APLViewController.m */,
-				F68C8C6317CB9E8C0071F4A9 /* Shaders */,
 				F68EB85617CA26AD00C4BE78 /* PVMyVideoController.h */,
 				F68EB85717CA26AD00C4BE78 /* PVMyVideoController.m */,
 				F68EB83D17C9BF2300C4BE78 /* MainStoryboard_iPad.storyboard */,
@@ -263,8 +255,8 @@
 				F68EB85817CA26AD00C4BE78 /* PVMyVideoController.m in Sources */,
 				F68C8C6617CB9E8C0071F4A9 /* APLEAGLView.m in Sources */,
 				F68C8C6717CB9E8C0071F4A9 /* APLViewController.m in Sources */,
-				F68C8C6817CB9E8C0071F4A9 /* Shader.fsh in Sources */,
-				F68C8C6917CB9E8C0071F4A9 /* Shader.vsh in Sources */,
+				F68C8C7817CBBEFC0071F4A9 /* Shader.fsh in Sources */,
+				F68C8C7917CBBEFC0071F4A9 /* Shader.vsh in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
