@@ -38,7 +38,7 @@
 
     NSString *videoFileName = [myVideoList objectAtIndex:indexPath.row];
     cell.textLabel.text = videoFileName;
-    
+
     NSURL *videoURL = [NSURL fileURLWithPath:[docPath stringByAppendingPathComponent:videoFileName]];
     
     MPMoviePlayerController *player = [[MPMoviePlayerController alloc] initWithContentURL:videoURL];
@@ -49,6 +49,16 @@
     [player stop];
     
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *videoFileName = [myVideoList objectAtIndex:indexPath.row];
+    NSURL *videoURL = [NSURL fileURLWithPath:[docPath stringByAppendingPathComponent:videoFileName]];
+    APLViewController *vplayer = [self.storyboard instantiateViewControllerWithIdentifier:@"APLViewController"];
+    vplayer.theMovieURL = videoURL;
+    [self.view addSubview: [vplayer view]];
+    // [self.navigationController pushViewController:vplayer animated:YES];
 }
 
 @end

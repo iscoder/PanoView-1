@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import "APLViewController.h"
 
 @interface PVMyVideoController : UITableViewController
 
