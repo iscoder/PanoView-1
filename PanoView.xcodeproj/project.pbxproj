@@ -15,8 +15,8 @@
 		F68C8C7117CB9FE10071F4A9 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68C8C7017CB9FE10071F4A9 /* OpenGLES.framework */; };
 		F68C8C7317CB9FFE0071F4A9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68C8C7217CB9FFE0071F4A9 /* AVFoundation.framework */; };
 		F68C8C7517CBA00F0071F4A9 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68C8C7417CBA00F0071F4A9 /* MobileCoreServices.framework */; };
-		F68C8C7817CBBEFC0071F4A9 /* Shader.fsh in Sources */ = {isa = PBXBuildFile; fileRef = F68C8C7617CBBEFC0071F4A9 /* Shader.fsh */; };
-		F68C8C7917CBBEFC0071F4A9 /* Shader.vsh in Sources */ = {isa = PBXBuildFile; fileRef = F68C8C7717CBBEFC0071F4A9 /* Shader.vsh */; };
+		F68C8C7A17CBC1710071F4A9 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = F68C8C7617CBBEFC0071F4A9 /* Shader.fsh */; };
+		F68C8C7B17CBC1730071F4A9 /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = F68C8C7717CBBEFC0071F4A9 /* Shader.vsh */; };
 		F68EB82317C9BF2300C4BE78 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68EB82217C9BF2300C4BE78 /* UIKit.framework */; };
 		F68EB82517C9BF2300C4BE78 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68EB82417C9BF2300C4BE78 /* Foundation.framework */; };
 		F68EB82717C9BF2300C4BE78 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68EB82617C9BF2300C4BE78 /* CoreGraphics.framework */; };
@@ -230,6 +230,8 @@
 			files = (
 				F68EB82D17C9BF2300C4BE78 /* InfoPlist.strings in Resources */,
 				F68EB83517C9BF2300C4BE78 /* Default.png in Resources */,
+				F68C8C7A17CBC1710071F4A9 /* Shader.fsh in Resources */,
+				F68C8C7B17CBC1730071F4A9 /* Shader.vsh in Resources */,
 				F68EB83717C9BF2300C4BE78 /* Default@2x.png in Resources */,
 				F68EB83917C9BF2300C4BE78 /* Default-568h@2x.png in Resources */,
 				F68EB83C17C9BF2300C4BE78 /* MainStoryboard_iPhone.storyboard in Resources */,
@@ -255,8 +257,6 @@
 				F68EB85817CA26AD00C4BE78 /* PVMyVideoController.m in Sources */,
 				F68C8C6617CB9E8C0071F4A9 /* APLEAGLView.m in Sources */,
 				F68C8C6717CB9E8C0071F4A9 /* APLViewController.m in Sources */,
-				F68C8C7817CBBEFC0071F4A9 /* Shader.fsh in Sources */,
-				F68C8C7917CBBEFC0071F4A9 /* Shader.vsh in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

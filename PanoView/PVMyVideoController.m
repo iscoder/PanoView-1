@@ -57,6 +57,8 @@
     NSURL *videoURL = [NSURL fileURLWithPath:[docPath stringByAppendingPathComponent:videoFileName]];
     APLViewController *vplayer = [self.storyboard instantiateViewControllerWithIdentifier:@"APLViewController"];
     vplayer.theMovieURL = videoURL;
+    NSBundle *bundle = [NSBundle mainBundle];
+    NSURL *vertShaderURL = [bundle URLForResource:@"Shader" withExtension:@"vsh"];
     [self.view addSubview: [vplayer view]];
     // [self.navigationController pushViewController:vplayer animated:YES];
 }

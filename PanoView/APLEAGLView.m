@@ -92,7 +92,7 @@ static const GLfloat kColorConversion709[] = {
 {
 	if ((self = [super initWithCoder:aDecoder]))
 	{
-		// Use 2x scale factor on Retina displays.
+		// Use 2x scale factor on Retßina displays.
 		self.contentScaleFactor = [[UIScreen mainScreen] scale];
 
 		// Get and configure the layer.
