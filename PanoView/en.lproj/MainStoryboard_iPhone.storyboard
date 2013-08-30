@@ -13,7 +13,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="62" id="avy-7A-8DD">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MyVideoListCell" rowHeight="62" id="avy-7A-8DD">
                                 <rect key="frame" x="0.0" y="22" width="320" height="62"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -23,7 +23,6 @@
                                         <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gnN-5X-B6O">
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="95" id="6Dh-zU-qO0"/>
-                                                <constraint firstAttribute="height" constant="61" id="waC-al-n6s"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="101" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aCV-Zb-epd">
@@ -40,8 +39,9 @@
                                 </view>
                                 <constraints>
                                     <constraint firstItem="gnN-5X-B6O" firstAttribute="top" secondItem="avy-7A-8DD" secondAttribute="top" type="default" id="CbL-bt-2qN"/>
-                                    <constraint firstItem="aCV-Zb-epd" firstAttribute="leading" secondItem="avy-7A-8DD" secondAttribute="leading" constant="99" id="IVx-MM-IGX"/>
+                                    <constraint firstItem="aCV-Zb-epd" firstAttribute="leading" secondItem="gnN-5X-B6O" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="TNM-Dq-UOC"/>
                                     <constraint firstItem="gnN-5X-B6O" firstAttribute="centerY" secondItem="aCV-Zb-epd" secondAttribute="centerY" type="default" id="Wdz-oq-Ir7"/>
+                                    <constraint firstItem="aCV-Zb-epd" firstAttribute="centerY" secondItem="avy-7A-8DD" secondAttribute="centerY" type="default" id="jTr-0o-NAb"/>
                                     <constraint firstItem="gnN-5X-B6O" firstAttribute="leading" secondItem="avy-7A-8DD" secondAttribute="leading" type="default" id="rg9-VQ-qqc"/>
                                 </constraints>
                             </tableViewCell>
@@ -112,20 +112,36 @@
             <objects>
                 <viewController storyboardIdentifier="APLViewController" id="br2-mm-IR0" customClass="APLViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="F7d-3q-Gj0" customClass="APLEAGLView">
-                        <rect key="frame" x="0.0" y="20" width="568" height="300"/>
+                        <rect key="frame" x="0.0" y="20" width="568" height="256"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackTranslucent" translatesAutoresizingMaskIntoConstraints="NO" id="Kr3-To-eZH">
+                            <toolbar opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackTranslucent" translatesAutoresizingMaskIntoConstraints="NO" id="Kr3-To-eZH">
                                 <items>
-                                    <barButtonItem title="Load" id="e3W-Un-0sD">
+                                    <barButtonItem systemItem="play" id="e3W-Un-0sD">
                                         <connections>
                                             <action selector="loadMovieFromCameraRoll:" destination="br2-mm-IR0" id="sbu-y5-yLU"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="649-qO-QyF"/>
-                                    <barButtonItem style="plain" id="5gz-07-fga">
-                                        <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="tE1-Tf-RfF">
-                                            <rect key="frame" x="380" y="8" width="182" height="30"/>
+                                </items>
+                            </toolbar>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oJK-aX-Ac4" userLabel="Current Time View"/>
+                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ozM-ar-ikG">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <toolbar opaque="NO" clipsSubviews="YES" contentMode="top" barStyle="blackTranslucent" translatesAutoresizingMaskIntoConstraints="NO" id="Njv-Dx-NEZ">
+                                <items>
+                                    <barButtonItem title="My Video" id="YHx-Hm-2b8">
+                                        <connections>
+                                            <action selector="goBackToMyVideoList:" destination="REQ-Sh-gma" id="2rD-vQ-M4p"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="k0P-vO-Nne"/>
+                                    <barButtonItem title="Item" width="180" id="5gz-07-fga">
+                                        <segmentedControl key="customView" opaque="NO" clipsSubviews="YES" alpha="0.59999999999999998" contentMode="scaleToFill" highlighted="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" segmentControlStyle="bar" selectedSegmentIndex="0" id="tE1-Tf-RfF">
+                                            <rect key="frame" x="382" y="8" width="180" height="31"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <segments>
                                                 <segment title="Pano"/>
@@ -139,34 +155,43 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oJK-aX-Ac4" userLabel="Current Time View"/>
-                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ozM-ar-ikG">
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="Njv-Dx-NEZ" firstAttribute="leading" secondItem="F7d-3q-Gj0" secondAttribute="leading" type="default" id="2BQ-A8-rNy"/>
                             <constraint firstItem="oJK-aX-Ac4" firstAttribute="trailing" secondItem="ozM-ar-ikG" secondAttribute="trailing" type="default" id="40a-62-PDL"/>
                             <constraint firstItem="Kr3-To-eZH" firstAttribute="trailing" secondItem="F7d-3q-Gj0" secondAttribute="trailing" type="default" id="8Kf-IZ-HPr"/>
                             <constraint firstItem="Kr3-To-eZH" firstAttribute="bottom" secondItem="F7d-3q-Gj0" secondAttribute="bottom" type="default" id="GBL-Jq-q6d"/>
                             <constraint firstItem="oJK-aX-Ac4" firstAttribute="leading" secondItem="ozM-ar-ikG" secondAttribute="leading" type="default" id="Jq9-Rj-RbP"/>
                             <constraint firstItem="Kr3-To-eZH" firstAttribute="leading" secondItem="F7d-3q-Gj0" secondAttribute="leading" type="default" id="Nch-4l-yyC"/>
+                            <constraint firstItem="ozM-ar-ikG" firstAttribute="top" secondItem="F7d-3q-Gj0" secondAttribute="top" constant="20" symbolic="YES" type="default" id="RAE-kk-O1T"/>
                             <constraint firstItem="ozM-ar-ikG" firstAttribute="bottom" secondItem="oJK-aX-Ac4" secondAttribute="bottom" type="default" id="Y67-ml-DSM"/>
-                            <constraint firstItem="ozM-ar-ikG" firstAttribute="top" secondItem="oJK-aX-Ac4" secondAttribute="top" type="default" id="g9R-HT-2QM"/>
                             <constraint firstItem="oJK-aX-Ac4" firstAttribute="leading" secondItem="F7d-3q-Gj0" secondAttribute="leading" constant="521" id="hVj-Dl-YFq"/>
-                            <constraint firstItem="ozM-ar-ikG" firstAttribute="top" secondItem="F7d-3q-Gj0" secondAttribute="top" constant="24" id="nkk-Ba-KPU"/>
+                            <constraint firstItem="Njv-Dx-NEZ" firstAttribute="trailing" secondItem="F7d-3q-Gj0" secondAttribute="trailing" type="default" id="sRb-gV-oWm"/>
+                            <constraint firstItem="oJK-aX-Ac4" firstAttribute="top" secondItem="F7d-3q-Gj0" secondAttribute="top" constant="20" symbolic="YES" type="default" id="vDc-3f-1ln"/>
+                            <constraint firstItem="Njv-Dx-NEZ" firstAttribute="top" secondItem="F7d-3q-Gj0" secondAttribute="top" type="default" id="wDE-pY-J0Y"/>
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="Dym-Nq-UaN" appends="YES" id="aeI-Q7-xHX"/>
                         </connections>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem systemItem="pause" id="Xbe-px-NP9">
+                            <connections>
+                                <action selector="pausePlayer:" destination="REQ-Sh-gma" id="Elz-gX-wgO"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
                         <outlet property="currentTime" destination="ozM-ar-ikG" id="bI1-SJ-1Pv"/>
+                        <outlet property="mPlayButton" destination="e3W-Un-0sD" id="7AD-bg-wHp"/>
+                        <outlet property="mStopButton" destination="Xbe-px-NP9" id="grm-T8-iuW"/>
+                        <outlet property="mToolbar" destination="Kr3-To-eZH" id="S0M-y5-kZo"/>
+                        <outlet property="mTopBar" destination="Njv-Dx-NEZ" id="Lzk-cz-Lka"/>
                         <outlet property="playerView" destination="F7d-3q-Gj0" id="gcY-O3-hpy"/>
                         <outlet property="timeView" destination="oJK-aX-Ac4" id="fgj-Vu-xyt"/>
                         <outlet property="toolbar" destination="Kr3-To-eZH" id="zAa-jR-C2s"/>
@@ -181,9 +206,42 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1081" y="-752"/>
+            <point key="canvasLocation" x="1132" y="-752"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="APLEAGLView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/APLEAGLView.h"/>
+        </class>
+        <class className="APLViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/APLViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="changeView"/>
+                <relationship kind="action" name="goBackToMyVideoList:"/>
+                <relationship kind="action" name="handleTapGesture:" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="action" name="loadMovieFromCameraRoll:"/>
+                <relationship kind="action" name="pausePlayer:"/>
+                <relationship kind="action" name="updateLevels:"/>
+                <relationship kind="outlet" name="chromaLevelSlider" candidateClass="UISlider"/>
+                <relationship kind="outlet" name="currentTime" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="lumaLevelSlider" candidateClass="UISlider"/>
+                <relationship kind="outlet" name="mPlayButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="mStopButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="mToolbar" candidateClass="UIToolbar"/>
+                <relationship kind="outlet" name="mTopBar" candidateClass="UIToolbar"/>
+                <relationship kind="outlet" name="playerView" candidateClass="APLEAGLView"/>
+                <relationship kind="outlet" name="timeView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
+                <relationship kind="outlet" name="viewChoice" candidateClass="UISegmentedControl"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="PVMyVideoController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PVMyVideoController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

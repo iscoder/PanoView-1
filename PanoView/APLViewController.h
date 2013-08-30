@@ -8,10 +8,20 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
-@interface APLViewController : UIViewController <AVPlayerItemOutputPullDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPopoverControllerDelegate, UIGestureRecognizerDelegate> {
+@interface APLViewController : UIViewController <AVPlayerItemOutputPullDelegate, UINavigationControllerDelegate, UIPopoverControllerDelegate, UIGestureRecognizerDelegate> {
     IBOutlet UISegmentedControl * viewChoice;
+    IBOutlet UIBarButtonItem * mPlayButton;
+    IBOutlet UIBarButtonItem * mStopButton;
+    IBOutlet UIToolbar *mToolbar;
+    IBOutlet UIToolbar *mTopBar;
+    
 }
 @property (nonatomic, retain) NSURL * theMovieURL;
+@property (atomic) BOOL needRotation;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *mPlayButton;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *mStopButton;
+@property (nonatomic, retain) IBOutlet UIToolbar *mToolbar;
+@property (nonatomic, retain) IBOutlet UIToolbar *mTopBar;
 -(IBAction)changeView;
 
 

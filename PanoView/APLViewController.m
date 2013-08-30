@@ -15,18 +15,6 @@
 
 static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 
-@interface APLImagePickerController : UIImagePickerController
-
-@end
-
-@implementation APLImagePickerController
-
-- (NSUInteger)supportedInterfaceOrientations
-{
-	return UIInterfaceOrientationMaskLandscape;
-}
-
-@end
 
 @interface APLViewController ()
 {
@@ -49,6 +37,8 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 
 - (IBAction)updateLevels:(id)sender;
 - (IBAction)loadMovieFromCameraRoll:(id)sender;
+- (IBAction)goBackToMyVideoList:(id)sender;
+- (IBAction)pausePlayer:(id)sender;
 - (IBAction)handleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer;
 
 - (void)displayLinkCallback:(CADisplayLink *)sender;
@@ -59,6 +49,10 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 @implementation APLViewController
 
 @synthesize theMovieURL;
+@synthesize mPlayButton;
+@synthesize mStopButton;
+@synthesize mToolbar;
+@synthesize mTopBar;
 
 #pragma mark -
 
@@ -85,12 +79,24 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 	self.videoOutput = [[AVPlayerItemVideoOutput alloc] initWithPixelBufferAttributes:pixBuffAttributes];
 	_myVideoOutputQueue = dispatch_queue_create("myVideoOutputQueue", DISPATCH_QUEUE_SERIAL);
 	[[self videoOutput] setDelegate:self queue:_myVideoOutputQueue];
+    
+    [self loadMovie];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
 	[self addObserver:self forKeyPath:@"player.currentItem.status" options:NSKeyValueObservingOptionNew context:AVPlayerItemStatusContext];
 	[self addTimeObserverToPlayer];
+    
+   //® [[UIApplication sharedApplication] setStatusBarHidden:YES animated:NO];
+    /*
+    if (self.needRotation)
+    {
+        self.view.transform = CGAffineTransformIdentity;
+        self.view.transform = CGAffineTransformMakeRotation(M_PI_2);
+        self.view.bounds = CGRectMake(0.0, 0.0, 480,320);
+    }
+     */
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -124,29 +130,34 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 	}
 }
 
-- (IBAction)loadMovieFromCameraRoll:(id)sender
+/* Show the stop button in the movie player controller. */
+-(void)showStopButton
+{
+    NSMutableArray *toolbarItems = [NSMutableArray arrayWithArray:[self.mToolbar items]];
+    [toolbarItems replaceObjectAtIndex:0 withObject:self.mStopButton];
+    self.mToolbar.items = toolbarItems;
+}
+
+/* Show the play button in the movie player controller. */
+-(void)showPlayButton
+{
+    NSMutableArray *toolbarItems = [NSMutableArray arrayWithArray:[self.mToolbar items]];
+    [toolbarItems replaceObjectAtIndex:0 withObject:self.mPlayButton];
+    self.mToolbar.items = toolbarItems;
+}
+
+- (IBAction)pausePlayer:(id)sender
+{
+    [_player pause];
+    [self showPlayButton];
+}
+
+- (void) loadMovie
 {
     // this is for running test on the simulator: load directly Movie.m4u
-        
-	[_player pause];
-    NSURL *theMovieURL = nil;
-	NSBundle *bundle = [NSBundle mainBundle];
-	if (bundle)
-	{
-		NSString *moviePath = [bundle pathForResource:@"Hollandvillage" ofType:@"mp4"];
-		if (moviePath)
-		{
-			theMovieURL = [NSURL fileURLWithPath:moviePath];
-		}
-	}
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-		[self.popover dismissPopoverAnimated:YES];
-	}
-	else {
-		[self dismissViewControllerAnimated:YES completion:nil];
-	}
-	
+	[_player pause];
+    
 	if ([_player currentItem] == nil) {
 		[[self lumaLevelSlider] setEnabled:YES];
 		[[self chromaLevelSlider] setEnabled:YES];
@@ -162,35 +173,69 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 		self.timeView.hidden = NO;
 		self.currentTime.hidden = NO;
     }
+    
+    [self setupPlaybackForURL:self.theMovieURL];
+    
+    
+    /*
+     [[self displayLink] setPaused:YES];
+     
+     if ([[self popover] isPopoverVisible]) {
+     [[self popover] dismissPopoverAnimated:YES];
+     }
+     // Initialize UIImagePickerController to select a movie from the camera roll
+     APLImagePickerController *videoPicker = [[APLImagePickerController alloc] init];
+     videoPicker.delegate = self;
+     videoPicker.modalPresentationStyle = UIModalPresentationCurrentContext;
+     videoPicker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+     videoPicker.mediaTypes = @[(NSString*)kUTTypeMovie];
+     
+     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+     self.popover = [[UIPopoverController alloc] initWithContentViewController:videoPicker];
+     self.popover.delegate = self;
+     [[self popover] presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+     }
+     else {
+     [self presentViewController:videoPicker animated:YES completion:nil];
+     }
+     */
+    
+}
 
-    [self setupPlaybackForURL:theMovieURL];
-/*
-	[[self displayLink] setPaused:YES];
-	
-	if ([[self popover] isPopoverVisible]) {
-		[[self popover] dismissPopoverAnimated:YES];
-	}
-	// Initialize UIImagePickerController to select a movie from the camera roll
-	APLImagePickerController *videoPicker = [[APLImagePickerController alloc] init];
-	videoPicker.delegate = self;
-	videoPicker.modalPresentationStyle = UIModalPresentationCurrentContext;
-	videoPicker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-	videoPicker.mediaTypes = @[(NSString*)kUTTypeMovie];
+- (IBAction)goBackToMyVideoList:(id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    /*
+     NSURL *theMovieURL = nil;
+     NSBundle *bundle = [NSBundle mainBundle];
+     if (bundle)
+     {
+     NSString *moviePath = [bundle pathForResource:@"Hollandvillage" ofType:@"mp4"];
+     if (moviePath)
+     {
+     theMovieURL = [NSURL fileURLWithPath:moviePath];
+     }
+     }
+     
+     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+     [self.popover dismissPopoverAnimated:YES];
+     }
+     else {
+     [self dismissViewControllerAnimated:YES completion:nil];
+     }
+	 */
+}
 
-	if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-		self.popover = [[UIPopoverController alloc] initWithContentViewController:videoPicker];
-		self.popover.delegate = self;
-		[[self popover] presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
-	}
-	else {
-		[self presentViewController:videoPicker animated:YES completion:nil];
-	}
- */
+- (IBAction)loadMovieFromCameraRoll:(id)sender
+{
+    [_player play];
+    [self showStopButton];
 }
 
 - (IBAction)handleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer
 {
 	self.toolbar.hidden = !self.toolbar.hidden;
+    self.mTopBar.hidden = !self.mTopBar.hidden;
 }
 
 - (NSUInteger)supportedInterfaceOrientations
@@ -240,7 +285,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 							[item addOutput:self.videoOutput];
 							[_player replaceCurrentItemWithPlayerItem:item];
 							[self.videoOutput requestNotificationOfMediaDataChangeWithAdvanceInterval:ONE_FRAME_DURATION];
-							[_player play];
+							// [_player play];
 						});
 						
 					}
@@ -370,53 +415,6 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 {
 	// Restart display link.
 	[[self displayLink] setPaused:NO];
-}
-
-#pragma mark - Image Picker Controller Delegate
-
-- (void)imagePickerController:(APLImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-	if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-		[self.popover dismissPopoverAnimated:YES];
-	}
-	else {
-		[self dismissViewControllerAnimated:YES completion:nil];
-	}
-	
-	if ([_player currentItem] == nil) {
-		[[self lumaLevelSlider] setEnabled:YES];
-		[[self chromaLevelSlider] setEnabled:YES];
-		[[self playerView] setupGL];
-	}
-    
-	// Time label shows the current time of the item.
-    if (self.timeView.hidden) {
-		[self.timeView.layer setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.3].CGColor];
-		[self.timeView.layer setCornerRadius:5.0f];
-		[self.timeView.layer setBorderColor:[UIColor colorWithWhite:1.0 alpha:0.15].CGColor];
-		[self.timeView.layer setBorderWidth:1.0f];
-		self.timeView.hidden = NO;
-		self.currentTime.hidden = NO;
-    }
-    
-	[self setupPlaybackForURL:info[UIImagePickerControllerReferenceURL]];
-	
-	picker.delegate = nil;
-}
-
-- (void)imagePickerControllerDidCancel:(APLImagePickerController *)picker
-{
-	[self dismissViewControllerAnimated:YES completion:nil];
-	
-	// Make sure our playback is resumed from any interruption.
-	if ([_player currentItem]) {
-		[self addDidPlayToEndTimeNotificationForPlayerItem:[_player currentItem]];
-	}
-	
-	[[self videoOutput] requestNotificationOfMediaDataChangeWithAdvanceInterval:ONE_FRAME_DURATION];
-	[_player play];
-	
-	picker.delegate = nil;
 }
 
 # pragma mark - Popover Controller Delegate

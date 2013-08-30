@@ -57,7 +57,10 @@
     NSURL *videoURL = [NSURL fileURLWithPath:[docPath stringByAppendingPathComponent:videoFileName]];
     APLViewController *vplayer = [self.storyboard instantiateViewControllerWithIdentifier:@"APLViewController"];
     vplayer.theMovieURL = videoURL;
-    [self.view addSubview: [vplayer view]];
+    vplayer.needRotation = self.interfaceOrientation == UIInterfaceOrientationPortrait;
+    //[self.view addSubview: [vplayer view]];
+    [self presentViewController:vplayer animated:YES completion:nil];
+
     // [self.navigationController pushViewController:vplayer animated:YES];
 }
 
