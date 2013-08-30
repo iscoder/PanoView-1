@@ -35,8 +35,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 @property AVPlayerItemVideoOutput *videoOutput;
 @property CADisplayLink *displayLink;
 
-- (IBAction)updateLevels:(id)sender;
-- (IBAction)loadMovieFromCameraRoll:(id)sender;
+- (IBAction)playPlayer:(id)sender;
 - (IBAction)goBackToMyVideoList:(id)sender;
 - (IBAction)pausePlayer:(id)sender;
 - (IBAction)handleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer;
@@ -112,24 +111,6 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 
 #pragma mark - Utilities
 
-- (IBAction)updateLevels:(id)sender
-{
-	NSInteger tag = [sender tag];
-	
-	switch (tag) {
-		case LUMA_SLIDER_TAG: {
-			// self.playerView.longitude = [[self lumaLevelSlider] value];
-			break;
-		}
-		case CHROMA_SLIDER_TAG: {
-			// self.playerView.lattitude = [[self chromaLevelSlider] value];
-			break;
-		}
-		default:
-			break;
-	}
-}
-
 /* Show the stop button in the movie player controller. */
 -(void)showStopButton
 {
@@ -183,12 +164,6 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
      if ([[self popover] isPopoverVisible]) {
      [[self popover] dismissPopoverAnimated:YES];
      }
-     // Initialize UIImagePickerController to select a movie from the camera roll
-     APLImagePickerController *videoPicker = [[APLImagePickerController alloc] init];
-     videoPicker.delegate = self;
-     videoPicker.modalPresentationStyle = UIModalPresentationCurrentContext;
-     videoPicker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-     videoPicker.mediaTypes = @[(NSString*)kUTTypeMovie];
      
      if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
      self.popover = [[UIPopoverController alloc] initWithContentViewController:videoPicker];
@@ -204,18 +179,10 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 
 - (IBAction)goBackToMyVideoList:(id)sender
 {
+    [_player pause];
+	[[_player currentItem] removeOutput:self.videoOutput];
     [self dismissViewControllerAnimated:YES completion:nil];
     /*
-     NSURL *theMovieURL = nil;
-     NSBundle *bundle = [NSBundle mainBundle];
-     if (bundle)
-     {
-     NSString *moviePath = [bundle pathForResource:@"Hollandvillage" ofType:@"mp4"];
-     if (moviePath)
-     {
-     theMovieURL = [NSURL fileURLWithPath:moviePath];
-     }
-     }
      
      if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
      [self.popover dismissPopoverAnimated:YES];
@@ -226,7 +193,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 	 */
 }
 
-- (IBAction)loadMovieFromCameraRoll:(id)sender
+- (IBAction)playPlayer:(id)sender
 {
     [_player play];
     [self showStopButton];
