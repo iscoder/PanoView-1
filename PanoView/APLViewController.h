@@ -14,6 +14,7 @@
     IBOutlet UIBarButtonItem * mStopButton;
     IBOutlet UIToolbar *mToolbar;
     IBOutlet UIToolbar *mTopBar;
+    IBOutlet UISlider* mScrubber;
     
 }
 @property (nonatomic, retain) NSURL * theMovieURL;
@@ -22,6 +23,7 @@
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *mStopButton;
 @property (nonatomic, retain) IBOutlet UIToolbar *mToolbar;
 @property (nonatomic, retain) IBOutlet UIToolbar *mTopBar;
+@property (nonatomic, retain) IBOutlet UISlider *mScrubber;
 -(IBAction)changeView;
 
 

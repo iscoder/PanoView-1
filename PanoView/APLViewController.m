@@ -22,16 +22,11 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 	dispatch_queue_t _myVideoOutputQueue;
 	id _notificationToken;
     id _timeObserver;
+    float mRestoreAfterScrubbingRate;
 }
 
 @property (nonatomic, weak) IBOutlet APLEAGLView *playerView;
-@property (nonatomic, weak) IBOutlet UISlider *chromaLevelSlider;
-@property (nonatomic, weak) IBOutlet UISlider *lumaLevelSlider;
-@property (nonatomic, weak) IBOutlet UILabel *currentTime;
-@property (nonatomic, weak) IBOutlet UIView *timeView;
-@property (nonatomic, weak) IBOutlet UIToolbar *toolbar;
 @property UIPopoverController *popover;
-
 @property AVPlayerItemVideoOutput *videoOutput;
 @property CADisplayLink *displayLink;
 
@@ -39,6 +34,9 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 - (IBAction)goBackToMyVideoList:(id)sender;
 - (IBAction)pausePlayer:(id)sender;
 - (IBAction)handleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer;
+- (IBAction)beginScrubbing:(id)sender;
+- (IBAction)scrub:(id)sender;
+- (IBAction)endScrubbing:(id)sender;
 
 - (void)displayLinkCallback:(CADisplayLink *)sender;
 
@@ -47,11 +45,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 
 @implementation APLViewController
 
-@synthesize theMovieURL;
-@synthesize mPlayButton;
-@synthesize mStopButton;
-@synthesize mToolbar;
-@synthesize mTopBar;
+@synthesize theMovieURL, mPlayButton, mStopButton, mToolbar, mTopBar, mScrubber;
 
 #pragma mark -
 
@@ -66,7 +60,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     [self.playerView updateInternal];
 
 	_player = [[AVPlayer alloc] init];
-    [self addTimeObserverToPlayer];
+    // [self addTimeObserverToPlayer];
 	
 	// Setup CADisplayLink which will callback displayPixelBuffer: at every vsync.
 	self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(displayLinkCallback:)];
@@ -80,12 +74,18 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 	[[self videoOutput] setDelegate:self queue:_myVideoOutputQueue];
     
     [self loadMovie];
+    
+    // add scrubber to toolbar
+    UIBarButtonItem *scrubberItem = [[UIBarButtonItem alloc] initWithCustomView:self.mScrubber];
+    NSMutableArray *toolbarItems = [NSMutableArray arrayWithArray:[self.mToolbar items]];
+    [toolbarItems insertObject:scrubberItem atIndex:[toolbarItems count]];
+    self.mToolbar.items = toolbarItems;
+    [self initScrubberTimer];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
 	[self addObserver:self forKeyPath:@"player.currentItem.status" options:NSKeyValueObservingOptionNew context:AVPlayerItemStatusContext];
-	[self addTimeObserverToPlayer];
     
    //® [[UIApplication sharedApplication] setStatusBarHidden:YES animated:NO];
     /*
@@ -140,20 +140,8 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 	[_player pause];
     
 	if ([_player currentItem] == nil) {
-		[[self lumaLevelSlider] setEnabled:YES];
-		[[self chromaLevelSlider] setEnabled:YES];
 		[[self playerView] setupGL];
 	}
-    
-	// Time label shows the current time of the item.
-    if (self.timeView.hidden) {
-		[self.timeView.layer setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:0.3].CGColor];
-		[self.timeView.layer setCornerRadius:5.0f];
-		[self.timeView.layer setBorderColor:[UIColor colorWithWhite:1.0 alpha:0.15].CGColor];
-		[self.timeView.layer setBorderWidth:1.0f];
-		self.timeView.hidden = NO;
-		self.currentTime.hidden = NO;
-    }
     
     [self setupPlaybackForURL:self.theMovieURL];
     
@@ -201,7 +189,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 
 - (IBAction)handleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer
 {
-	self.toolbar.hidden = !self.toolbar.hidden;
+	self.mToolbar.hidden = !self.mToolbar.hidden;
     self.mTopBar.hidden = !self.mTopBar.hidden;
 }
 
@@ -254,9 +242,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 							[self.videoOutput requestNotificationOfMediaDataChangeWithAdvanceInterval:ONE_FRAME_DURATION];
 							// [_player play];
 						});
-						
 					}
-					
 				}];
 			}
 		}
@@ -307,40 +293,6 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 		// Simple item playback rewind.
 		[[_player currentItem] seekToTime:kCMTimeZero];
 	}];
-}
-
-- (void)syncTimeLabel
-{
-	double seconds = CMTimeGetSeconds([_player currentTime]);
-	if (!isfinite(seconds)) {
-		seconds = 0;
-	}
-	
-	int secondsInt = round(seconds);
-	int minutes = secondsInt/60;
-	secondsInt -= minutes*60;
-	
-	self.currentTime.textColor = [UIColor colorWithWhite:1.0 alpha:1.0];
-	self.currentTime.textAlignment = NSTextAlignmentCenter;
-
-	self.currentTime.text = [NSString stringWithFormat:@"%.2i:%.2i", minutes, secondsInt];
-}
-
-- (void)addTimeObserverToPlayer
-{
-	/*
-	 Adds a time observer to the player to periodically refresh the time label to reflect current time.
-	 */
-    if (_timeObserver)
-        return;
-    /*
-     Use __weak reference to self to ensure that a strong reference cycle is not formed between the view controller, player and notification block.
-     */
-    __weak APLViewController* weakSelf = self;
-    _timeObserver = [_player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1, 10) queue:dispatch_get_main_queue() usingBlock:
-                 ^(CMTime time) {
-                     [weakSelf syncTimeLabel];
-                 }];
 }
 
 - (void)removeTimeObserverFromPlayer
@@ -439,6 +391,114 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
         self.playerView.lattitude = 1.0;
     }
     [self.playerView updateInternal];
+}
+
+- (CMTime)playerItemDuration
+{
+	AVPlayerItem *playerItem = [_player currentItem];
+	if (playerItem.status == AVPlayerItemStatusReadyToPlay)
+	{
+        /*
+         NOTE:
+         Because of the dynamic nature of HTTP Live Streaming Media, the best practice
+         for obtaining the duration of an AVPlayerItem object has changed in iOS 4.3.
+         Prior to iOS 4.3, you would obtain the duration of a player item by fetching
+         the value of the duration property of its associated AVAsset object. However,
+         note that for HTTP Live Streaming Media the duration of a player item during
+         any particular playback session may differ from the duration of its asset. For
+         this reason a new key-value observable duration property has been defined on
+         AVPlayerItem.
+         
+         See the AV Foundation Release Notes for iOS 4.3 for more information.
+         */
+        
+		return([playerItem duration]);
+	}
+	
+	return(kCMTimeInvalid);
+}
+
+/* Requests invocation of a given block during media playback to update the movie scrubber control. */
+-(void)initScrubberTimer
+{
+    if (_timeObserver)
+        return;
+	/* Update the scrubber during normal playback. */
+    __weak APLViewController* weakSelf = self;
+	_timeObserver = [_player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(0.1, 10)
+                                                                queue:NULL /* If you pass NULL, the main queue is used. */
+                                                           usingBlock:^(CMTime time)
+                      {
+                          [weakSelf syncScrubber];
+                      }];
+    
+}
+
+
+/* Set the scrubber based on the player current time. */
+- (void)syncScrubber
+{
+	CMTime playerDuration = [self playerItemDuration];
+	if (CMTIME_IS_INVALID(playerDuration))
+	{
+		mScrubber.minimumValue = 0.0;
+		return;
+	}
+    
+	double duration = CMTimeGetSeconds(playerDuration);
+	if (isfinite(duration))
+	{
+		float minValue = [self.mScrubber minimumValue];
+		float maxValue = [self.mScrubber maximumValue];
+		double time = CMTimeGetSeconds([_player currentTime]);
+		
+		[self.mScrubber setValue:(maxValue - minValue) * time / duration + minValue];
+	}
+}
+
+/* The user is dragging the movie controller thumb to scrub through the movie. */
+- (IBAction)beginScrubbing:(id)sender
+{
+	mRestoreAfterScrubbingRate = [_player rate];
+	[_player setRate:0.f];
+	/* Remove previous timer. */
+	[self removeTimeObserverFromPlayer];
+}
+
+/* Set the player current time to match the scrubber position. */
+- (IBAction)scrub:(id)sender
+{
+	if ([sender isKindOfClass:[UISlider class]])
+	{
+		UISlider* slider = sender;
+		
+		CMTime playerDuration = [self playerItemDuration];
+		if (CMTIME_IS_INVALID(playerDuration)) {
+			return;
+		}
+		
+		double duration = CMTimeGetSeconds(playerDuration);
+		if (isfinite(duration))
+		{
+            double time = duration * [slider value];
+			[_player seekToTime:CMTimeMakeWithSeconds(time, 1)];
+		}
+	}
+}
+
+/* The user has released the movie thumb control to stop scrubbing through the movie. */
+- (IBAction)endScrubbing:(id)sender
+{
+	if (!_timeObserver)
+	{
+		[self initScrubberTimer];
+	}
+    
+	if (mRestoreAfterScrubbingRate)
+	{
+		[_player setRate:mRestoreAfterScrubbingRate];
+		mRestoreAfterScrubbingRate = 0.f;
+    }
 }
 
 @end
