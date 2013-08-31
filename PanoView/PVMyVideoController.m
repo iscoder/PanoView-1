@@ -8,11 +8,27 @@
 
 #import "PVMyVideoController.h"
 
+@interface SizableImageCell : UITableViewCell{}
+@end
+@implementation SizableImageCell
+- (void) layoutSubviews {
+    [super layoutSubviews];
+    float desiredWidth = 100;
+    float w = self.imageView.frame.size.width;
+    float widthSub = w - desiredWidth;
+    self.imageView.frame = CGRectMake(self.imageView.frame.origin.x,self.imageView.frame.origin.y,desiredWidth,self.imageView.frame.size.height);
+    self.textLabel.frame = CGRectMake(self.textLabel.frame.origin.x-widthSub,self.textLabel.frame.origin.y,self.textLabel.frame.size.width+widthSub,self.textLabel.frame.size.height);
+    self.detailTextLabel.frame = CGRectMake(self.detailTextLabel.frame.origin.x-widthSub,self.detailTextLabel.frame.origin.y,self.detailTextLabel.frame.size.width+widthSub,self.detailTextLabel.frame.size.height);
+    self.imageView.contentMode = UIViewContentModeScaleAspectFit;
+}
+@end
+
 @implementation PVMyVideoController
 {
-    NSArray *myVideoList;
+    NSMutableArray *myVideoList;
     NSString *docPath;
 }
+
 
 - (void) viewDidLoad
 {
@@ -20,7 +36,7 @@
     // get all files from Document directory
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     docPath = [paths objectAtIndex:0];
-    myVideoList = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:docPath error:nil];
+    myVideoList = [[[NSFileManager defaultManager] subpathsOfDirectoryAtPath:docPath error:nil] mutableCopy];
 }
 
 - (NSInteger) tableView:(UITableView *)tableview numberOfRowsInSection:(NSInteger)section
@@ -31,9 +47,9 @@
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *myVideoIdentifier = @"MyVideoItem";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:myVideoIdentifier];
+    SizableImageCell *cell = [tableView dequeueReusableCellWithIdentifier:myVideoIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:myVideoIdentifier ];
+        cell = [[SizableImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:myVideoIdentifier ];
     }
 
     NSString *videoFileName = [myVideoList objectAtIndex:indexPath.row];
@@ -62,6 +78,30 @@
     [self presentViewController:vplayer animated:YES completion:nil];
 
     // [self.navigationController pushViewController:vplayer animated:YES];
+}
+
+- (BOOL)tableView:(UITableView *) tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        NSString *videoFileName = [docPath stringByAppendingPathComponent:[myVideoList objectAtIndex:indexPath.row]];        
+        // Delete item in the list
+        [myVideoList removeObjectAtIndex:indexPath.row];
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        // Delete the file in Documents folder
+        [[NSFileManager defaultManager] removeItemAtPath:videoFileName error:NULL];
+    }
+
 }
 
 @end

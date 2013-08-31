@@ -9,7 +9,7 @@
             <objects>
                 <tableViewController id="HyQ-Pz-3Jd" customClass="PVMyVideoController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="62" sectionHeaderHeight="22" sectionFooterHeight="22" id="G3N-zT-mGC">
-                        <rect key="frame" x="0.0" y="20" width="320" height="499"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -19,31 +19,8 @@
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="61"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gnN-5X-B6O">
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="95" id="6Dh-zU-qO0"/>
-                                            </constraints>
-                                        </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="101" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aCV-Zb-epd">
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="40" id="QSu-E4-Quq"/>
-                                                <constraint firstAttribute="width" constant="212" id="jF6-mF-tpS"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </label>
-                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
-                                <constraints>
-                                    <constraint firstItem="gnN-5X-B6O" firstAttribute="top" secondItem="avy-7A-8DD" secondAttribute="top" type="default" id="CbL-bt-2qN"/>
-                                    <constraint firstItem="aCV-Zb-epd" firstAttribute="leading" secondItem="gnN-5X-B6O" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="TNM-Dq-UOC"/>
-                                    <constraint firstItem="gnN-5X-B6O" firstAttribute="centerY" secondItem="aCV-Zb-epd" secondAttribute="centerY" type="default" id="Wdz-oq-Ir7"/>
-                                    <constraint firstItem="aCV-Zb-epd" firstAttribute="centerY" secondItem="avy-7A-8DD" secondAttribute="centerY" type="default" id="jTr-0o-NAb"/>
-                                    <constraint firstItem="gnN-5X-B6O" firstAttribute="leading" secondItem="avy-7A-8DD" secondAttribute="leading" type="default" id="rg9-VQ-qqc"/>
-                                </constraints>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -51,11 +28,11 @@
                             <outlet property="delegate" destination="HyQ-Pz-3Jd" id="CgG-z8-MCc"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="My Video" id="iNC-52-eP7"/>
+                    <navigationItem key="navigationItem" title="My Video" id="e3V-Bv-f9V"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="955-4d-fGY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="717" y="-810"/>
+            <point key="canvasLocation" x="-1033" y="-2497"/>
         </scene>
         <!--View Controller - About-->
         <scene sceneID="pZq-FG-bM0">
@@ -86,7 +63,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3rH-ap-1dR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="711" y="-44"/>
+            <point key="canvasLocation" x="-1585" y="-980"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="15">
@@ -99,13 +76,13 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="HyQ-Pz-3Jd" kind="relationship" relationship="viewControllers" id="pEU-XL-2z7"/>
-                        <segue destination="Fb2-WZ-zgU" kind="relationship" relationship="viewControllers" id="bcO-F3-hgr"/>
+                        <segue destination="oil-tY-FhH" kind="relationship" relationship="viewControllers" id="Spi-jK-kcI"/>
+                        <segue destination="Fb2-WZ-zgU" kind="relationship" relationship="viewControllers" id="SNF-Ei-qsy"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="14" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="127" y="-788"/>
+            <point key="canvasLocation" x="-2169" y="-1724"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="226-lm-gwI">
@@ -218,7 +195,23 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1132" y="-752"/>
+            <point key="canvasLocation" x="-600" y="-2364"/>
+        </scene>
+        <!--Navigation Controller - My Video-->
+        <scene sceneID="WBA-i8-1qO">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="oil-tY-FhH" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="My Video" id="fbv-qT-lBP"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="blackOpaque" id="bye-Rg-ysB">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="HyQ-Pz-3Jd" kind="relationship" relationship="rootViewController" id="qBK-Ma-gQ2"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MTj-i3-xMk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1585" y="-2497"/>
         </scene>
     </scenes>
     <classes>
