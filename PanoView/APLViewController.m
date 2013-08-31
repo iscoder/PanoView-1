@@ -321,13 +321,13 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 	_notificationToken = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:item queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
 		// Simple item playback rewind.
 		[self rewind:nil];
+        [self showPlayButton];
 	}];
 }
 
 - (void)rewind:(id)sender
 {
     [[_player currentItem] seekToTime:kCMTimeZero];
-    [self showPlayButton];
 }
 
 - (void)removeTimeObserverFromPlayer
