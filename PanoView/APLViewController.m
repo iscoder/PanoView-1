@@ -38,6 +38,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 - (IBAction)beginScrubbing:(id)sender;
 - (IBAction)scrub:(id)sender;
 - (IBAction)endScrubbing:(id)sender;
+- (IBAction)rewind:(id)sender;
 
 - (void)displayLinkCallback:(CADisplayLink *)sender;
 
@@ -118,7 +119,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 -(void)showStopButton
 {
     NSMutableArray *toolbarItems = [NSMutableArray arrayWithArray:[self.mToolbar items]];
-    [toolbarItems replaceObjectAtIndex:0 withObject:self.mStopButton];
+    [toolbarItems replaceObjectAtIndex:1 withObject:self.mStopButton];
     self.mToolbar.items = toolbarItems;
 }
 
@@ -126,7 +127,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 -(void)showPlayButton
 {
     NSMutableArray *toolbarItems = [NSMutableArray arrayWithArray:[self.mToolbar items]];
-    [toolbarItems replaceObjectAtIndex:0 withObject:self.mPlayButton];
+    [toolbarItems replaceObjectAtIndex:1 withObject:self.mPlayButton];
     self.mToolbar.items = toolbarItems;
 }
 
@@ -319,9 +320,14 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 	// _player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
 	_notificationToken = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:item queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
 		// Simple item playback rewind.
-		[[_player currentItem] seekToTime:kCMTimeZero];
-        [self showPlayButton];
+		[self rewind:nil];
 	}];
+}
+
+- (void)rewind:(id)sender
+{
+    [[_player currentItem] seekToTime:kCMTimeZero];
+    [self showPlayButton];
 }
 
 - (void)removeTimeObserverFromPlayer
