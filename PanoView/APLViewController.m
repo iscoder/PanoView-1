@@ -23,6 +23,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 	id _notificationToken;
     id _timeObserver;
     float mRestoreAfterScrubbingRate;
+    bool mViewIsChanging;
 }
 
 @property (nonatomic, weak) IBOutlet APLEAGLView *playerView;
@@ -54,8 +55,6 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 {
 	[super viewDidLoad];
 	
-	//self.playerView.lumaThreshold = [[self lumaLevelSlider] value];
-	//self.playerView.chromaThreshold = [[self chromaLevelSlider] value];
     self.playerView.longitude = 0.5;
     self.playerView.lattitude = 0.5;
     [self.playerView updateInternal];
@@ -350,7 +349,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 	
 	outputItemTime = [[self videoOutput] itemTimeForHostTime:nextVSync];
 	
-	if ([[self videoOutput] hasNewPixelBufferForItemTime:outputItemTime]) {
+	if ([[self videoOutput] hasNewPixelBufferForItemTime:outputItemTime] || mViewIsChanging) {
 		CVPixelBufferRef pixelBuffer = NULL;
 		pixelBuffer = [[self videoOutput] copyPixelBufferForItemTime:outputItemTime itemTimeForDisplay:NULL];
 		
@@ -394,7 +393,8 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     self.playerView.touchInit = [[touches anyObject] locationInView:self.playerView];
     self.playerView.prevLattitude = self.playerView.lattitude;
-      self.playerView.prevLongitude = self.playerView.longitude;
+    self.playerView.prevLongitude = self.playerView.longitude;
+    mViewIsChanging = true;
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
@@ -406,7 +406,11 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     self.playerView.longitude = self.playerView.prevLongitude - xOffset / self.playerView.layer.bounds.size.width;
     self.playerView.longitude -= floorf(self.playerView.longitude);
     [self.playerView updateInternal];
- }
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    mViewIsChanging = false;
+}
 
 -(IBAction)changeView{
     self.playerView.viewChoice = viewChoice.selectedSegmentIndex;
