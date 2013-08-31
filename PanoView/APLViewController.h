@@ -15,6 +15,8 @@
     IBOutlet UIToolbar *mToolbar;
     IBOutlet UIToolbar *mTopBar;
     IBOutlet UISlider* mScrubber;
+    IBOutlet UILabel *mCurrentTime;
+    IBOutlet UILabel *mDuration;
     
 }
 @property (nonatomic, retain) NSURL * theMovieURL;
@@ -24,6 +26,8 @@
 @property (nonatomic, retain) IBOutlet UIToolbar *mToolbar;
 @property (nonatomic, retain) IBOutlet UIToolbar *mTopBar;
 @property (nonatomic, retain) IBOutlet UISlider *mScrubber;
+@property (nonatomic, retain) IBOutlet UILabel *mCurrentTime;
+@property (nonatomic, retain) IBOutlet UILabel *mDuration;
 -(IBAction)changeView;
 
 

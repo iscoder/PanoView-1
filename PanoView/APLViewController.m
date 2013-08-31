@@ -46,6 +46,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 @implementation APLViewController
 
 @synthesize theMovieURL, mPlayButton, mStopButton, mToolbar, mTopBar, mScrubber;
+@synthesize mCurrentTime, mDuration;
 
 #pragma mark -
 
@@ -75,10 +76,13 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     
     [self loadMovie];
     
-    // add scrubber to toolbar
+    // add scrubber and duration to toolbar
     UIBarButtonItem *scrubberItem = [[UIBarButtonItem alloc] initWithCustomView:self.mScrubber];
+    UIBarButtonItem *durationItem = [[UIBarButtonItem alloc] initWithCustomView:self.mDuration];
+    [durationItem setWidth:110];
     NSMutableArray *toolbarItems = [NSMutableArray arrayWithArray:[self.mToolbar items]];
-    [toolbarItems insertObject:scrubberItem atIndex:[toolbarItems count]];
+    [toolbarItems addObject:scrubberItem];
+    [toolbarItems addObject:durationItem];
     self.mToolbar.items = toolbarItems;
     [self initScrubberTimer];
 }
@@ -269,6 +273,8 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 				break;
 			case AVPlayerItemStatusReadyToPlay:
 				self.playerView.presentationRect = [[_player currentItem] presentationSize];
+                // add duration display
+                [self updateTimeLabel];
 				break;
 			case AVPlayerItemStatusFailed:
 				[self stopLoadingAnimationAndHandleError:[[_player currentItem] error]];
@@ -280,6 +286,29 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 	}
 }
 
+- (void)updateTimeLabel
+{
+    CMTime totalTime = [self playerItemDuration];
+    CMTime currentTime = [_player currentTime];
+    
+    NSUInteger dTotalSeconds = CMTimeGetSeconds(totalTime);
+    NSUInteger cTotalSeconds = CMTimeGetSeconds(currentTime);
+    
+    NSUInteger cHours = floor(cTotalSeconds / 3600);
+    NSUInteger cMinutes = floor(cTotalSeconds % 3600 / 60);
+    NSUInteger cSeconds = floor(cTotalSeconds % 60);
+    
+    NSUInteger dHours = floor(dTotalSeconds / 3600);
+    NSUInteger dMinutes = floor(dTotalSeconds % 3600 / 60);
+    NSUInteger dSeconds = floor(dTotalSeconds % 60);
+    
+    NSString *durationString = [NSString stringWithFormat:@"%i:%02i:%02i / %i:%02i:%02i"
+                                , cHours, cMinutes, cSeconds
+                                , dHours, dMinutes, dSeconds
+                                ];
+    [self.mDuration setText:durationString];
+}
+
 - (void)addDidPlayToEndTimeNotificationForPlayerItem:(AVPlayerItem *)item
 {
 	if (_notificationToken)
@@ -288,10 +317,11 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 	/*
      Setting actionAtItemEnd to None prevents the movie from getting paused at item end. A very simplistic, and not gapless, looped playback.
      */
-	_player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
+	// _player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
 	_notificationToken = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:item queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
 		// Simple item playback rewind.
 		[[_player currentItem] seekToTime:kCMTimeZero];
+        [self showPlayButton];
 	}];
 }
 
@@ -453,6 +483,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 		double time = CMTimeGetSeconds([_player currentTime]);
 		
 		[self.mScrubber setValue:(maxValue - minValue) * time / duration + minValue];
+        [self updateTimeLabel];
 	}
 }
 
@@ -482,6 +513,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 		{
             double time = duration * [slider value];
 			[_player seekToTime:CMTimeMakeWithSeconds(time, 1)];
+            [self updateTimeLabel];
 		}
 	}
 }
