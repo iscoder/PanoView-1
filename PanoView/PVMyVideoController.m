@@ -29,14 +29,18 @@
     NSString *docPath;
 }
 
-
-- (void) viewDidLoad
+- (void) viewWillAppear:(BOOL)animated
 {
-    [super viewDidLoad];
     // get all files from Document directory
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     docPath = [paths objectAtIndex:0];
     myVideoList = [[[NSFileManager defaultManager] subpathsOfDirectoryAtPath:docPath error:nil] mutableCopy];
+    [self.tableView reloadData];
+}
+
+- (void) viewDidLoad
+{
+    [super viewDidLoad];
 }
 
 - (NSInteger) tableView:(UITableView *)tableview numberOfRowsInSection:(NSInteger)section

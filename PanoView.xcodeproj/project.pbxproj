@@ -48,6 +48,7 @@
 		F6E15C5017D8E86C0042F33E /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6E15C4F17D8E86C0042F33E /* CFNetwork.framework */; };
 		F6E15C5217D8E87E0042F33E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6E15C5117D8E87E0042F33E /* SystemConfiguration.framework */; };
 		F6E15C5417D8E8A40042F33E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F6E15C5317D8E8A40042F33E /* libz.dylib */; };
+		F6E15C5A17D8E99E0042F33E /* PVDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6E15C5917D8E99E0042F33E /* PVDownloadViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -114,6 +115,8 @@
 		F6E15C4F17D8E86C0042F33E /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		F6E15C5117D8E87E0042F33E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		F6E15C5317D8E8A40042F33E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		F6E15C5817D8E99E0042F33E /* PVDownloadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVDownloadViewController.h; sourceTree = "<group>"; };
+		F6E15C5917D8E99E0042F33E /* PVDownloadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVDownloadViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,7 +183,8 @@
 		F68EB82817C9BF2300C4BE78 /* PanoView */ = {
 			isa = PBXGroup;
 			children = (
-				F6E15C2F17D8E6C10042F33E /* ASIHTTPRequest */,
+				F6E15C5817D8E99E0042F33E /* PVDownloadViewController.h */,
+				F6E15C5917D8E99E0042F33E /* PVDownloadViewController.m */,
 				F68EB83117C9BF2300C4BE78 /* PVAppDelegate.h */,
 				F68EB83217C9BF2300C4BE78 /* PVAppDelegate.m */,
 				F68C8C5F17CB9E8C0071F4A9 /* APLEAGLView.h */,
@@ -194,13 +198,14 @@
 				F68EB83A17C9BF2300C4BE78 /* MainStoryboard_iPhone.storyboard */,
 				F68EB83D17C9BF2300C4BE78 /* MainStoryboard_iPad.storyboard */,
 				F68EB84017C9BF2300C4BE78 /* PVFirstViewController.h */,
+				F68EB84817C9BF2300C4BE78 /* PVSecondViewController.m */,
 				F68EB84117C9BF2300C4BE78 /* PVFirstViewController.m */,
 				F68EB84317C9BF2300C4BE78 /* first.png */,
 				F68EB84517C9BF2300C4BE78 /* first@2x.png */,
 				F68EB84717C9BF2300C4BE78 /* PVSecondViewController.h */,
-				F68EB84817C9BF2300C4BE78 /* PVSecondViewController.m */,
 				F68EB84A17C9BF2300C4BE78 /* second.png */,
 				F68EB84C17C9BF2300C4BE78 /* second@2x.png */,
+				F6E15C2F17D8E6C10042F33E /* ASIHTTPRequest */,
 				F68EB82917C9BF2300C4BE78 /* Supporting Files */,
 			);
 			path = PanoView;
@@ -339,6 +344,7 @@
 				F6E15C4A17D8E6F50042F33E /* ASIInputStream.m in Sources */,
 				F6E15C4B17D8E6F50042F33E /* ASINetworkQueue.m in Sources */,
 				F6E15C4E17D8E8040042F33E /* Reachability.m in Sources */,
+				F6E15C5A17D8E99E0042F33E /* PVDownloadViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
