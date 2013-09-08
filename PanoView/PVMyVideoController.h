@@ -12,4 +12,6 @@
 
 @interface PVMyVideoController : UITableViewController
 
+- (void) reloadVideoFiles;
+
 @end

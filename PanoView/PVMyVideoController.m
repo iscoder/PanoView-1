@@ -7,6 +7,7 @@
 //
 
 #import "PVMyVideoController.h"
+#import "PVAppDelegate.h"
 
 @interface SizableImageCell : UITableViewCell{}
 @end
@@ -29,17 +30,18 @@
     NSString *docPath;
 }
 
-- (void) viewWillAppear:(BOOL)animated
+- (void) reloadVideoFiles
 {
-    // get all files from Document directory
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     docPath = [paths objectAtIndex:0];
     myVideoList = [[[NSFileManager defaultManager] subpathsOfDirectoryAtPath:docPath error:nil] mutableCopy];
-    [self.tableView reloadData];
+    if (self.view)
+        [self.tableView reloadData];
 }
 
 - (void) viewDidLoad
 {
+    [self reloadVideoFiles];
     [super viewDidLoad];
 }
 
@@ -106,6 +108,13 @@
         [[NSFileManager defaultManager] removeItemAtPath:videoFileName error:NULL];
     }
 
+}
+
+-(id) initWithCoder:(NSCoder *)aDecoder
+{
+    PVAppDelegate *appDelegate = (PVAppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.vcMyVideo = self;
+    return [super initWithCoder:aDecoder];
 }
 
 @end

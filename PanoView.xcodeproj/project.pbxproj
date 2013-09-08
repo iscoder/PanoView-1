@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F68BA54717DB8E82001A8C18 /* PVOnlineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F68BA54617DB8E82001A8C18 /* PVOnlineViewController.m */; };
 		F68C8C6617CB9E8C0071F4A9 /* APLEAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C8C6017CB9E8C0071F4A9 /* APLEAGLView.m */; };
 		F68C8C6717CB9E8C0071F4A9 /* APLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C8C6217CB9E8C0071F4A9 /* APLViewController.m */; };
 		F68C8C6B17CB9F8A0071F4A9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68C8C6A17CB9F8A0071F4A9 /* QuartzCore.framework */; };
@@ -52,6 +53,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F68BA54517DB8E82001A8C18 /* PVOnlineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVOnlineViewController.h; sourceTree = "<group>"; };
+		F68BA54617DB8E82001A8C18 /* PVOnlineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVOnlineViewController.m; sourceTree = "<group>"; };
 		F68C8C5F17CB9E8C0071F4A9 /* APLEAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APLEAGLView.h; sourceTree = "<group>"; };
 		F68C8C6017CB9E8C0071F4A9 /* APLEAGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APLEAGLView.m; sourceTree = "<group>"; };
 		F68C8C6117CB9E8C0071F4A9 /* APLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APLViewController.h; sourceTree = "<group>"; };
@@ -185,6 +188,8 @@
 			children = (
 				F6E15C5817D8E99E0042F33E /* PVDownloadViewController.h */,
 				F6E15C5917D8E99E0042F33E /* PVDownloadViewController.m */,
+				F68BA54517DB8E82001A8C18 /* PVOnlineViewController.h */,
+				F68BA54617DB8E82001A8C18 /* PVOnlineViewController.m */,
 				F68EB83117C9BF2300C4BE78 /* PVAppDelegate.h */,
 				F68EB83217C9BF2300C4BE78 /* PVAppDelegate.m */,
 				F68C8C5F17CB9E8C0071F4A9 /* APLEAGLView.h */,
@@ -345,6 +350,7 @@
 				F6E15C4B17D8E6F50042F33E /* ASINetworkQueue.m in Sources */,
 				F6E15C4E17D8E8040042F33E /* Reachability.m in Sources */,
 				F6E15C5A17D8E99E0042F33E /* PVDownloadViewController.m in Sources */,
+				F68BA54717DB8E82001A8C18 /* PVOnlineViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

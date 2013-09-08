@@ -110,12 +110,12 @@ void origView()
 void main()
 {
     pano();
-    /*
+ /*
 	if (viewChoice == 0)
 		pano();	
 	else if (viewChoice == 1)
 		littleplanet();
 	else if (viewChoice == 2)
 		origView();
-     */
+ */    
  }

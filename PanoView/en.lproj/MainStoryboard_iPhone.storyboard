@@ -63,7 +63,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3rH-ap-1dR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1585" y="-980"/>
+            <point key="canvasLocation" x="-1585" y="-452"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="15">
@@ -77,8 +77,9 @@
                     </tabBar>
                     <connections>
                         <segue destination="oil-tY-FhH" kind="relationship" relationship="viewControllers" id="Spi-jK-kcI"/>
-                        <segue destination="CwG-ZF-5xh" kind="relationship" relationship="viewControllers" id="ZMN-nQ-CYk"/>
-                        <segue destination="Fb2-WZ-zgU" kind="relationship" relationship="viewControllers" id="8PL-tx-jwF"/>
+                        <segue destination="n4U-C5-UYx" kind="relationship" relationship="viewControllers" id="ZYP-1j-loY"/>
+                        <segue destination="CwG-ZF-5xh" kind="relationship" relationship="viewControllers" id="RCP-10-Tew"/>
+                        <segue destination="Fb2-WZ-zgU" kind="relationship" relationship="viewControllers" id="oYK-PR-Ts6"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="14" sceneMemberID="firstResponder"/>
@@ -234,17 +235,58 @@
                             </tableViewCell>
                         </prototypes>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Download" id="hQg-06-QMg">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="yXc-vv-fEt">
-                            <connections>
-                                <action selector="fetchSampleVideo:" destination="zZw-s2-pkI" id="nAV-NH-dY3"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Download" id="hQg-06-QMg"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Akg-WY-QnG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <barButtonItem systemItem="add" id="yXc-vv-fEt">
+                    <connections>
+                        <action selector="fetchSampleVideo:" destination="zZw-s2-pkI" id="nAV-NH-dY3"/>
+                    </connections>
+                </barButtonItem>
             </objects>
             <point key="canvasLocation" x="-1056" y="-1802"/>
+        </scene>
+        <!--Online View Controller - Online Library-->
+        <scene sceneID="frn-Wo-Ltq">
+            <objects>
+                <tableViewController id="t9p-Tw-Esw" customClass="PVOnlineViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="16v-HQ-eMA">
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="nBR-Hu-Z3Z">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Online Library" id="ks3-I0-rjZ"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uG9-eI-AwV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1056" y="-1128"/>
+        </scene>
+        <!--Navigation Controller - Online Library-->
+        <scene sceneID="ds7-Lk-BYI">
+            <objects>
+                <navigationController title="Online Library" definesPresentationContext="YES" id="n4U-C5-UYx" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Online Library" id="7Yd-4u-eCE"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="blackOpaque" id="Ip3-3p-hea">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="t9p-Tw-Esw" kind="relationship" relationship="rootViewController" id="piE-4D-37v"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="y2s-aS-v6m" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1590" y="-1128"/>
         </scene>
         <!--Navigation Controller - Download-->
         <scene sceneID="TvS-72-2pF">
@@ -301,6 +343,9 @@
         </class>
         <class className="PVMyVideoController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PVMyVideoController.h"/>
+        </class>
+        <class className="PVOnlineViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PVOnlineViewController.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

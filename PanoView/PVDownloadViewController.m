@@ -8,6 +8,8 @@
 
 #import "PVDownloadViewController.h"
 #import "ASIHTTPRequest.h"
+#import "PVAppDelegate.h"
+#import "PVMyVideoController.h"
 
 @interface ProgressTableViewCell : UITableViewCell
 {
@@ -49,6 +51,7 @@
 
 @interface PVDownloadViewController ()
 
+
 @end
 
 @implementation PVDownloadViewController
@@ -89,23 +92,12 @@
 	[request setDownloadDestinationPath:[docPath
                                          stringByAppendingPathComponent:filename]];
 	[networkQueue addOperation:request];
-    [self.tableView reloadData];
+    [self reloadData];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if (!networkQueue) {
-        networkQueue = [[ASINetworkQueue alloc] init];
-        [networkQueue setMaxConcurrentOperationCount:1];
-        [networkQueue setShowAccurateProgress:YES];
-        [networkQueue setDelegate:self];
-        [networkQueue setRequestDidReceiveResponseHeadersSelector:@selector(request:receivedResponseHeaders:)];
-        [networkQueue setRequestDidFinishSelector:@selector(requestFinished:)];
-        [networkQueue go];
-    }
-
-
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -140,14 +132,14 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    ASIHTTPRequest *request = [[networkQueue operations] objectAtIndex:indexPath.row];
-    NSString *download = [[request downloadDestinationPath] lastPathComponent];
-    
+            
     ProgressTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     // ProgressTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[ProgressTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier ];
     }
+    ASIHTTPRequest *request = [[networkQueue operations] objectAtIndex:indexPath.row];
+    NSString *download = [[request downloadDestinationPath] lastPathComponent];
     cell.textLabel.text = download;
     cell.detailTextLabel.text = @"---";
     // Configure the cell...
@@ -160,9 +152,8 @@
     if (size > 0)
     {
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%.02f MB"
-                                     , size / 1024 / 1024.0 ];
+                                         , size / 1024 / 1024.0 ];
     }
-     
     return cell;
 }
 
@@ -223,13 +214,57 @@
     return 50;
 }
 
+-(id) initWithCoder:(NSCoder *)aDecoder
+{
+    PVAppDelegate *appDelegate = (PVAppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.vcDownload = self;
+    if (!networkQueue) {
+        networkQueue = [[ASINetworkQueue alloc] init];
+        [networkQueue setMaxConcurrentOperationCount:1];
+        [networkQueue setShowAccurateProgress:YES];
+        [networkQueue setDelegate:self];
+        [networkQueue setRequestDidReceiveResponseHeadersSelector:@selector(request:receivedResponseHeaders:)];
+        [networkQueue setRequestDidFinishSelector:@selector(requestFinished:)];
+        [networkQueue setRequestDidFailSelector:@selector(requestFailed:)];
+        [networkQueue go];
+    }
+    return [super initWithCoder:aDecoder];
+}
+
+-(void)reloadData
+{
+    [self.tableView reloadData];
+    if (networkQueue.requestsCount > 0)
+    {
+        NSString * numQs = [NSString stringWithFormat:@"%i",networkQueue.requestsCount];
+        [self.navigationController.tabBarItem setBadgeValue:numQs];
+    }
+    else
+        [self.navigationController.tabBarItem setBadgeValue:nil];
+}
 
 -(void)request:(ASIHTTPRequest *)request receivedResponseHeaders:(NSDictionary *)responseHeaders{
-    [self.tableView reloadData];
+    // if header says it is not video, then cancel the request
+    if (![[responseHeaders objectForKey:@"Content-type"] isEqualToString:@"video/mp4"])
+        [request failWithError:nil];
+    if (self.view != nil)
+        [self reloadData];
 }
 -(void)requestFinished:(ASIHTTPRequest *)request
 {
-    [self.tableView reloadData];
+    if (self.view != nil)
+        [self reloadData];
+    PVAppDelegate *appDelegate = (PVAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate.vcMyVideo reloadVideoFiles];
+}
+
+
+-(void)requestFailed:(ASIHTTPRequest *) request
+{
+    if ([[request error] domain] != NetworkRequestErrorDomain || [[request error] code] != ASIRequestCancelledErrorType) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Download failed" message:@"Failed to download video" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    }
 }
 
 @end

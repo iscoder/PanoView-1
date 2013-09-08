@@ -15,5 +15,6 @@
 }
 
 - (IBAction)fetchSampleVideo:(id)sender;
+- (void)addURLToQueue:(NSURL *)url;
 
 @end

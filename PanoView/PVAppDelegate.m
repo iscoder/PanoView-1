@@ -7,8 +7,11 @@
 //
 
 #import "PVAppDelegate.h"
-
+@interface PVAppDelegate () {}
+//@synthesize vcDownload;
+@end
 @implementation PVAppDelegate
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
