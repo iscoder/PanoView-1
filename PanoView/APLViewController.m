@@ -24,6 +24,9 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     id _timeObserver;
     float mRestoreAfterScrubbingRate;
     bool mViewIsChanging;
+    
+    CMMotionManager *motionManager;
+    NSTimer *gyroTimer;
 }
 
 @property (nonatomic, weak) IBOutlet APLEAGLView *playerView;
@@ -62,11 +65,11 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 
 	_player = [[AVPlayer alloc] init];
     // [self addTimeObserverToPlayer];
-	
+
 	// Setup CADisplayLink which will callback displayPixelBuffer: at every vsync.
 	self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(displayLinkCallback:)];
 	[[self displayLink] addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-	[[self displayLink] setPaused:YES];
+	
 	
 	// Setup AVPlayerItemVideoOutput with the required pixelbuffer attributes.
 	NSDictionary *pixBuffAttributes = @{(id)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange)};
@@ -74,7 +77,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 	_myVideoOutputQueue = dispatch_queue_create("myVideoOutputQueue", DISPATCH_QUEUE_SERIAL);
 	[[self videoOutput] setDelegate:self queue:_myVideoOutputQueue];
     
-    [self loadMovie];
+    
     
     // add scrubber and duration to toolbar
     UIBarButtonItem *scrubberItem = [[UIBarButtonItem alloc] initWithCustomView:self.mScrubber];
@@ -84,13 +87,40 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     [toolbarItems addObject:scrubberItem];
     [toolbarItems addObject:durationItem];
     self.mToolbar.items = toolbarItems;
-    [self initScrubberTimer];
+    
+    // test gyroscope
+    motionManager = [[CMMotionManager alloc] init];
 }
+
+-(void)startGyro {
+    [motionManager startDeviceMotionUpdates];
+    gyroTimer = [NSTimer scheduledTimerWithTimeInterval:1/30.0
+												 target:self
+											   selector:@selector(doGyroUpdate)
+											   userInfo:nil
+												repeats:YES];
+}
+
+-(void)stopGyro {
+    [motionManager stopDeviceMotionUpdates];
+    [gyroTimer invalidate];
+}
+
+
+-(void)doGyroUpdate {
+	CMDeviceMotion *deviceMotion = motionManager.deviceMotion;
+    CMAttitude *attitude = deviceMotion.attitude;
+    
+    NSLog(@"%f", attitude.roll);
+    self.playerView.longitude = attitude.roll;
+    [self.playerView updateInternal];
+}
+
 
 - (void)viewWillAppear:(BOOL)animated
 {
 	[self addObserver:self forKeyPath:@"player.currentItem.status" options:NSKeyValueObservingOptionNew context:AVPlayerItemStatusContext];
-    
+    [self loadMovie];
    //® [[UIApplication sharedApplication] setStatusBarHidden:YES animated:NO];
     /*
     if (self.needRotation)
@@ -106,6 +136,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 {
 	[self removeObserver:self forKeyPath:@"player.currentItem.status" context:AVPlayerItemStatusContext];
 	[self removeTimeObserverFromPlayer];
+    [self stopGyro];
 	
 	if (_notificationToken) {
 		[[NSNotificationCenter defaultCenter] removeObserver:_notificationToken name:AVPlayerItemDidPlayToEndTimeNotification object:_player.currentItem];
@@ -140,7 +171,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 - (void) loadMovie
 {
     // this is for running test on the simulator: load directly Movie.m4u
-    
+    [[self displayLink] setPaused:YES];
 	[_player pause];
     
 	if ([_player currentItem] == nil) {
@@ -148,7 +179,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 	}
     
     [self setupPlaybackForURL:self.theMovieURL];
-    
+    [self initScrubberTimer];
     
     /*
      [[self displayLink] setPaused:YES];
@@ -172,8 +203,12 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 - (IBAction)goBackToMyVideoList:(id)sender
 {
     [_player pause];
+    [self rewind:nil];
 	[[_player currentItem] removeOutput:self.videoOutput];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [[self displayLink] setPaused:YES];
+
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+
     /*
      
      if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
@@ -222,7 +257,6 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 	AVAsset *asset = [item asset];
 	
 	[asset loadValuesAsynchronouslyForKeys:@[@"tracks"] completionHandler:^{
-			
 		if ([asset statusOfValueForKey:@"tracks" error:nil] == AVKeyValueStatusLoaded) {
 			NSArray *tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
 			if ([tracks count] > 0) {
@@ -245,6 +279,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 							[_player replaceCurrentItemWithPlayerItem:item];
 							[self.videoOutput requestNotificationOfMediaDataChangeWithAdvanceInterval:ONE_FRAME_DURATION];
 							// [_player play];
+                            [self showPlayButton];
 						});
 					}
 				}];
@@ -328,6 +363,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 - (void)rewind:(id)sender
 {
     [[_player currentItem] seekToTime:kCMTimeZero];
+    [mScrubber setValue:0];
 }
 
 - (void)removeTimeObserverFromPlayer
@@ -405,11 +441,11 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
     CGPoint touchLocation = [[touches anyObject] locationInView:self.playerView];
-    float xOffset = touchLocation.x - self.playerView.touchInit.x;
-    float yOffset = touchLocation.y - self.playerView.touchInit.y;
+    float xOffset = (touchLocation.x - self.playerView.touchInit.x) / 2.0;
+    float yOffset = (touchLocation.y - self.playerView.touchInit.y) / 2.0;
     self.playerView.lattitude = MAX(0.0, MIN(1.0,
-            self.playerView.prevLattitude + yOffset/self.playerView.layer.bounds.size.height));
-    self.playerView.longitude = self.playerView.prevLongitude - xOffset / self.playerView.layer.bounds.size.width;
+            self.playerView.prevLattitude - yOffset/self.playerView.layer.bounds.size.height));
+    self.playerView.longitude = self.playerView.prevLongitude + xOffset / self.playerView.layer.bounds.size.width;
     self.playerView.longitude -= floorf(self.playerView.longitude);
     [self.playerView updateInternal];
 }

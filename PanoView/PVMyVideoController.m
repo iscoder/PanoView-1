@@ -28,6 +28,7 @@
 {
     NSMutableArray *myVideoList;
     NSString *docPath;
+    APLViewController *vplayer;
 }
 
 - (void) reloadVideoFiles
@@ -42,6 +43,7 @@
 - (void) viewDidLoad
 {
     [self reloadVideoFiles];
+    vplayer = [self.storyboard instantiateViewControllerWithIdentifier:@"APLViewController"];
     [super viewDidLoad];
 }
 
@@ -63,12 +65,13 @@
 
     NSURL *videoURL = [NSURL fileURLWithPath:[docPath stringByAppendingPathComponent:videoFileName]];
     
-    MPMoviePlayerController *player = [[MPMoviePlayerController alloc] initWithContentURL:videoURL];
-    
-    cell.imageView.image = [player thumbnailImageAtTime:1.0 timeOption:MPMovieTimeOptionNearestKeyFrame];
-    
-    //Player autoplays audio on init
-    [player stop];
+    {
+        
+        MPMoviePlayerController *player = [[MPMoviePlayerController alloc] initWithContentURL:videoURL];
+        cell.imageView.image = [player thumbnailImageAtTime:1.0 timeOption:MPMovieTimeOptionNearestKeyFrame];
+        //Player autoplays audio on init
+        [player stop];
+    }
     
     return cell;
 }
@@ -77,10 +80,9 @@
 {
     NSString *videoFileName = [myVideoList objectAtIndex:indexPath.row];
     NSURL *videoURL = [NSURL fileURLWithPath:[docPath stringByAppendingPathComponent:videoFileName]];
-    APLViewController *vplayer = [self.storyboard instantiateViewControllerWithIdentifier:@"APLViewController"];
+    
     vplayer.theMovieURL = videoURL;
     vplayer.needRotation = self.interfaceOrientation == UIInterfaceOrientationPortrait;
-    //[self.view addSubview: [vplayer view]];
     [self presentViewController:vplayer animated:YES completion:nil];
 
     // [self.navigationController pushViewController:vplayer animated:YES];

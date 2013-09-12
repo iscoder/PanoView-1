@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
+#import <CoreMotion/CoreMotion.h>
 
 @interface APLViewController : UIViewController <AVPlayerItemOutputPullDelegate, UINavigationControllerDelegate, UIPopoverControllerDelegate, UIGestureRecognizerDelegate> {
     IBOutlet UISegmentedControl * viewChoice;

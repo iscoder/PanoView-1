@@ -50,6 +50,7 @@
 		F6E15C5217D8E87E0042F33E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6E15C5117D8E87E0042F33E /* SystemConfiguration.framework */; };
 		F6E15C5417D8E8A40042F33E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F6E15C5317D8E8A40042F33E /* libz.dylib */; };
 		F6E15C5A17D8E99E0042F33E /* PVDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6E15C5917D8E99E0042F33E /* PVDownloadViewController.m */; };
+		F6F27B7A17E218B100EDB8EC /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6F27B7917E218B100EDB8EC /* CoreMotion.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -120,6 +121,7 @@
 		F6E15C5317D8E8A40042F33E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		F6E15C5817D8E99E0042F33E /* PVDownloadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVDownloadViewController.h; sourceTree = "<group>"; };
 		F6E15C5917D8E99E0042F33E /* PVDownloadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVDownloadViewController.m; sourceTree = "<group>"; };
+		F6F27B7917E218B100EDB8EC /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +129,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6F27B7A17E218B100EDB8EC /* CoreMotion.framework in Frameworks */,
 				F6E15C5417D8E8A40042F33E /* libz.dylib in Frameworks */,
 				F68EB82717C9BF2300C4BE78 /* CoreGraphics.framework in Frameworks */,
 				F68C8C7517CBA00F0071F4A9 /* MobileCoreServices.framework in Frameworks */,
@@ -167,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				F6E15C5317D8E8A40042F33E /* libz.dylib */,
+				F6F27B7917E218B100EDB8EC /* CoreMotion.framework */,
 				F6E15C5117D8E87E0042F33E /* SystemConfiguration.framework */,
 				F6E15C4F17D8E86C0042F33E /* CFNetwork.framework */,
 				F68C8C7417CBA00F0071F4A9 /* MobileCoreServices.framework */,
@@ -445,10 +449,14 @@
 		F68EB85117C9BF2300C4BE78 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Paul Khor (M9K8RC587C)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PanoView/PanoView-Prefix.pch";
 				INFOPLIST_FILE = "PanoView/PanoView-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -456,10 +464,14 @@
 		F68EB85217C9BF2300C4BE78 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Paul Khor (M9K8RC587C)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PanoView/PanoView-Prefix.pch";
 				INFOPLIST_FILE = "PanoView/PanoView-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
