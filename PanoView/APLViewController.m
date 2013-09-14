@@ -24,6 +24,11 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     id _timeObserver;
     float mRestoreAfterScrubbingRate;
     bool mViewIsChanging;
+    bool mControlModeIsFinger; // true for finger only, false for motion
+    
+    float motionRefLongitude;
+    float motionRefLattitude;
+    bool motionRefLongitudeIsSet;
     
     CMMotionManager *motionManager;
     NSTimer *gyroTimer;
@@ -90,30 +95,90 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     
     // test gyroscope
     motionManager = [[CMMotionManager alloc] init];
+    mViewIsChanging = false;
+    mControlModeIsFinger = true;
 }
 
 -(void)startGyro {
-    [motionManager startDeviceMotionUpdates];
+    [motionManager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXArbitraryZVertical];
     gyroTimer = [NSTimer scheduledTimerWithTimeInterval:1/30.0
 												 target:self
 											   selector:@selector(doGyroUpdate)
 											   userInfo:nil
 												repeats:YES];
+    motionRefLongitudeIsSet = false;
+    mViewIsChanging = true;
 }
 
 -(void)stopGyro {
     [motionManager stopDeviceMotionUpdates];
     [gyroTimer invalidate];
+    mViewIsChanging = false;
 }
 
 
 -(void)doGyroUpdate {
 	CMDeviceMotion *deviceMotion = motionManager.deviceMotion;
     CMAttitude *attitude = deviceMotion.attitude;
+    // CMAttitude *invattitude = attitude multiplyByInverseOfAttitude:attitude;
     
-    NSLog(@"%f", attitude.roll);
-    self.playerView.longitude = attitude.roll;
+    float invm[3][3];
+    invm[0][0] = attitude.rotationMatrix.m22 * attitude.rotationMatrix.m33 - attitude.rotationMatrix.m23 * attitude.rotationMatrix.m32;
+    invm[0][1] = attitude.rotationMatrix.m13 * attitude.rotationMatrix.m32 - attitude.rotationMatrix.m12 * attitude.rotationMatrix.m33;
+    invm[0][2] = attitude.rotationMatrix.m12 * attitude.rotationMatrix.m23 - attitude.rotationMatrix.m13 * attitude.rotationMatrix.m22;
+    
+    invm[1][0] = attitude.rotationMatrix.m23 * attitude.rotationMatrix.m31 - attitude.rotationMatrix.m21 * attitude.rotationMatrix.m33;
+    invm[1][1] = attitude.rotationMatrix.m11 * attitude.rotationMatrix.m33 - attitude.rotationMatrix.m13 * attitude.rotationMatrix.m31;
+    invm[1][2] = attitude.rotationMatrix.m13 * attitude.rotationMatrix.m21 - attitude.rotationMatrix.m11 * attitude.rotationMatrix.m23;
+    
+    invm[2][0] = attitude.rotationMatrix.m21 * attitude.rotationMatrix.m32 - attitude.rotationMatrix.m22 * attitude.rotationMatrix.m31;
+    invm[2][1] = attitude.rotationMatrix.m12 * attitude.rotationMatrix.m31 - attitude.rotationMatrix.m11 * attitude.rotationMatrix.m32;
+    invm[2][2] = attitude.rotationMatrix.m11 * attitude.rotationMatrix.m22 - attitude.rotationMatrix.m12 * attitude.rotationMatrix.m21;
+    
+    
+    if (!(invm[0][2] == 0.0 && invm[1][2] == 0.0 && invm[0][0] == 0))
+    {
+        if (!motionRefLongitudeIsSet)
+        {
+            motionRefLongitude = atan2f(invm[0][2], invm[1][2]);
+            motionRefLattitude = asin(invm[2][2]);
+            motionRefLongitudeIsSet = true;
+        }
+        else
+        {
+            float longy = atan2f(invm[0][2], invm[1][2]);
+            self.playerView.longitude += (motionRefLongitude - longy) / M_PI;
+            self.playerView.longitude -= floorf(self.playerView.longitude);
+            motionRefLongitude = longy;
+            
+            float latte = asin(invm[2][2]);
+            self.playerView.lattitude += (latte - motionRefLattitude) / M_PI;
+            self.playerView.lattitude = MAX(0.0, MIN(1.0, self.playerView.lattitude));
+            motionRefLattitude = latte;
+        }
+    }
+
     [self.playerView updateInternal];
+
+    
+/*
+    NSLog(@"\n%f %f %f \n%f %f %f\n%f %f %f "
+          , attitude.rotationMatrix.m11, attitude.rotationMatrix.m12, attitude.rotationMatrix.m13
+          , attitude.rotationMatrix.m21, attitude.rotationMatrix.m22, attitude.rotationMatrix.m23
+          , attitude.rotationMatrix.m31, attitude.rotationMatrix.m32, attitude.rotationMatrix.m33);
+*/
+    /*
+    NSLog(@"\n%f %f %f \n%f %f %f\n%f %f %f "
+          , invm[0][0], invm[0][1], invm[0][2]
+          , invm[1][0], invm[1][1], invm[1][2]
+          , invm[2][0], invm[2][1], invm[2][2] );
+    */
+    
+    
+  
+//    NSLog(@"%f %f %f", attitude.roll, attitude.yaw, attitude.pitch);
+//    self.playerView.longitude = attitude.roll;
+//    [self.playerView updateInternal];
 }
 
 
@@ -121,6 +186,10 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 {
 	[self addObserver:self forKeyPath:@"player.currentItem.status" options:NSKeyValueObservingOptionNew context:AVPlayerItemStatusContext];
     [self loadMovie];
+    
+    if (controlChoice.selectedSegmentIndex == 1)
+        [self startGyro];
+    
    //® [[UIApplication sharedApplication] setStatusBarHidden:YES animated:NO];
     /*
     if (self.needRotation)
@@ -136,7 +205,8 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 {
 	[self removeObserver:self forKeyPath:@"player.currentItem.status" context:AVPlayerItemStatusContext];
 	[self removeTimeObserverFromPlayer];
-    [self stopGyro];
+    if (controlChoice.selectedSegmentIndex == 1)
+        [self stopGyro];
 	
 	if (_notificationToken) {
 		[[NSNotificationCenter defaultCenter] removeObserver:_notificationToken name:AVPlayerItemDidPlayToEndTimeNotification object:_player.currentItem];
@@ -434,8 +504,9 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     self.playerView.touchInit = [[touches anyObject] locationInView:self.playerView];
-    self.playerView.prevLattitude = self.playerView.lattitude;
+    
     self.playerView.prevLongitude = self.playerView.longitude;
+    self.playerView.prevLattitude = self.playerView.lattitude;
     mViewIsChanging = true;
 }
 
@@ -443,15 +514,16 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     CGPoint touchLocation = [[touches anyObject] locationInView:self.playerView];
     float xOffset = (touchLocation.x - self.playerView.touchInit.x) / 2.0;
     float yOffset = (touchLocation.y - self.playerView.touchInit.y) / 2.0;
-    self.playerView.lattitude = MAX(0.0, MIN(1.0,
-            self.playerView.prevLattitude - yOffset/self.playerView.layer.bounds.size.height));
+    
+    self.playerView.lattitude = MAX(0.0, MIN(1.0, self.playerView.prevLattitude - yOffset/self.playerView.layer.bounds.size.height));
     self.playerView.longitude = self.playerView.prevLongitude + xOffset / self.playerView.layer.bounds.size.width;
     self.playerView.longitude -= floorf(self.playerView.longitude);
     [self.playerView updateInternal];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
-    mViewIsChanging = false;
+    if (mControlModeIsFinger)
+        mViewIsChanging = false;
 }
 
 -(IBAction)changeView{
@@ -467,6 +539,19 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
         self.playerView.lattitude = 1.0;
     }
     [self.playerView updateInternal];
+}
+
+-(IBAction)changeControl{
+    if (controlChoice.selectedSegmentIndex == 0)
+    {
+        [self stopGyro];
+        mControlModeIsFinger = true;
+    }
+    else
+    {
+        [self startGyro];
+        mControlModeIsFinger = false;
+    }
 }
 
 - (CMTime)playerItemDuration

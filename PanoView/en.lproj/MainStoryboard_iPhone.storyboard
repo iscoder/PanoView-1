@@ -117,6 +117,19 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="k0P-vO-Nne"/>
+                                    <barButtonItem style="plain" id="bT9-hx-XgY">
+                                        <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="its-M2-T71">
+                                            <rect key="frame" x="211" y="8" width="161" height="31"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <segments>
+                                                <segment title="Finger"/>
+                                                <segment title="Motion"/>
+                                            </segments>
+                                            <connections>
+                                                <action selector="changeControl" destination="br2-mm-IR0" eventType="valueChanged" id="WCS-SB-s9m"/>
+                                            </connections>
+                                        </segmentedControl>
+                                    </barButtonItem>
                                     <barButtonItem title="Item" width="180" id="5gz-07-fga">
                                         <segmentedControl key="customView" opaque="NO" clipsSubviews="YES" alpha="0.59999999999999998" contentMode="scaleToFill" highlighted="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" segmentControlStyle="bar" selectedSegmentIndex="0" id="tE1-Tf-RfF">
                                             <rect key="frame" x="382" y="8" width="180" height="31"/>
@@ -173,6 +186,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
+                        <outlet property="controlChoice" destination="its-M2-T71" id="6B4-7s-lix"/>
                         <outlet property="mDuration" destination="h5k-sf-hKT" id="KiT-xC-AeF"/>
                         <outlet property="mPlayButton" destination="e3W-Un-0sD" id="7AD-bg-wHp"/>
                         <outlet property="mScrubber" destination="dii-GR-3bN" id="DgI-mW-W6y"/>
@@ -313,6 +327,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/APLViewController.h"/>
             <relationships>
                 <relationship kind="action" name="beginScrubbing:"/>
+                <relationship kind="action" name="changeControl"/>
                 <relationship kind="action" name="changeView"/>
                 <relationship kind="action" name="endScrubbing:"/>
                 <relationship kind="action" name="goBackToMyVideoList:"/>
@@ -321,6 +336,7 @@
                 <relationship kind="action" name="playPlayer:"/>
                 <relationship kind="action" name="rewind:"/>
                 <relationship kind="action" name="scrub:"/>
+                <relationship kind="outlet" name="controlChoice" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="mCurrentTime" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="mDuration" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="mPlayButton" candidateClass="UIBarButtonItem"/>

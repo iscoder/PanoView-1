@@ -11,6 +11,7 @@
 
 @interface APLViewController : UIViewController <AVPlayerItemOutputPullDelegate, UINavigationControllerDelegate, UIPopoverControllerDelegate, UIGestureRecognizerDelegate> {
     IBOutlet UISegmentedControl * viewChoice;
+    IBOutlet UISegmentedControl * controlChoice;
     IBOutlet UIBarButtonItem * mPlayButton;
     IBOutlet UIBarButtonItem * mStopButton;
     IBOutlet UIToolbar *mToolbar;
@@ -30,6 +31,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *mCurrentTime;
 @property (nonatomic, retain) IBOutlet UILabel *mDuration;
 -(IBAction)changeView;
+-(IBAction)changeControl;
 
 
 @end
