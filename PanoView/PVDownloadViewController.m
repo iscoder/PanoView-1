@@ -148,7 +148,7 @@
     [cell.contentView addSubview:progress];
     [request setDownloadProgressDelegate:progress];
     
-    NSInteger size = [request.responseHeaders objectForKey:@"Content-length"];
+    int size = [[request.responseHeaders objectForKey:@"Content-length"] intValue];
     if (size > 0)
     {
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%.02f MB"
