@@ -65,7 +65,7 @@ static const GLfloat kColorConversion709[] = {
 	
 	GLuint _frameBufferHandle;
 	GLuint _colorBufferHandle;
-	
+    
 	const GLfloat *_preferredConversion;
 }
 
@@ -345,32 +345,66 @@ static const GLfloat kColorConversion709[] = {
      The quad vertex data defines the region of 2D plane onto which we draw our pixel buffers.
      Vertex data formed using (-1,-1) and (1,1) as the bottom left and top right coordinates respectively, covers the entire screen.
      */
+    const int panoSampleW = 100;
+    const int panoSampleH = 100;
+    GLfloat quadVertexData [panoSampleW * panoSampleH * 2];
+    GLfloat quadTextureData[panoSampleW * panoSampleH * 2];
+    for (int i = 0; i < panoSampleW; i++)
+    {
+        for ( int j = 0; j < panoSampleH; j++)
+        {
+            quadVertexData[i*panoSampleH*2+j*2] = ((float)j / (panoSampleH-1) * 2.0 - 1) * normalizedSamplingSize.width;
+            quadVertexData[i*panoSampleH*2+j*2+1] = ( (float)i / (panoSampleW-1) * 2.0 - 1) * normalizedSamplingSize.height;
+            
+            quadTextureData[i*panoSampleH*2+j*2] = (float)j / (panoSampleH-1);
+            quadTextureData[i*panoSampleH*2+j*2+1] = 1.0 - (float)i / (panoSampleW-1);
+        }
+    }
+    /*
 	GLfloat quadVertexData [] = {
 		-1 * normalizedSamplingSize.width, -1 * normalizedSamplingSize.height,
 			 normalizedSamplingSize.width, -1 * normalizedSamplingSize.height,
 		-1 * normalizedSamplingSize.width, normalizedSamplingSize.height,
 			 normalizedSamplingSize.width, normalizedSamplingSize.height,
 	};
-	
-	// Update attribute values.
-	glVertexAttribPointer(ATTRIB_VERTEX, 2, GL_FLOAT, 0, 0, quadVertexData);
-	glEnableVertexAttribArray(ATTRIB_VERTEX);
-
+     */
 	/*
      The texture vertices are set up such that we flip the texture vertically. This is so that our top left origin buffers match OpenGL's bottom left texture coordinate system.
      */
-	CGRect textureSamplingRect = CGRectMake(0, 0, 1, 1);
+    /*
+    CGRect textureSamplingRect = CGRectMake(0, 0, 1, 1);
 	GLfloat quadTextureData[] =  {
 		CGRectGetMinX(textureSamplingRect), CGRectGetMaxY(textureSamplingRect),
 		CGRectGetMaxX(textureSamplingRect), CGRectGetMaxY(textureSamplingRect),
 		CGRectGetMinX(textureSamplingRect), CGRectGetMinY(textureSamplingRect),
 		CGRectGetMaxX(textureSamplingRect), CGRectGetMinY(textureSamplingRect)
 	};
+     */
 	
+    // Update attribute values.
+	glVertexAttribPointer(ATTRIB_VERTEX, 2, GL_FLOAT, 0, 0, quadVertexData);
+	glEnableVertexAttribArray(ATTRIB_VERTEX);
+
 	glVertexAttribPointer(ATTRIB_TEXCOORD, 2, GL_FLOAT, 0, 0, quadTextureData);
 	glEnableVertexAttribArray(ATTRIB_TEXCOORD);
 	
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	// glDrawArrays(GL_TRIANGLE_STRIP, 0, panoSample*panoSample);
+    GLuint indices [(panoSampleH-1)*(panoSampleW-1)*6];
+    for (int i = 1; i < panoSampleH; i++)
+    {
+        for ( int j = 1; j < panoSampleW; j++)
+        {
+            int base = ((i-1) * (panoSampleW-1) + (j-1)) * 6;
+            indices[base] = (j-1) * panoSampleH + i-1;
+            indices[base+1] = (j-1) * panoSampleH + i;
+            indices[base+2] = j*panoSampleH + (i-1);
+            indices[base+3] = (j-1) * panoSampleH + i;
+            indices[base+4] = j*panoSampleH + (i-1);
+            indices[base+5] = j*panoSampleH + i;
+        }
+    }
+    
+    glDrawElements(GL_TRIANGLES, (panoSampleH-1)*(panoSampleW-1)*6, GL_UNSIGNED_INT,indices);
 
 	glBindRenderbuffer(GL_RENDERBUFFER, _colorBufferHandle);
 	[_context presentRenderbuffer:GL_RENDERBUFFER];
