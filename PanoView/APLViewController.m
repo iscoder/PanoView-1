@@ -91,9 +91,9 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     NSMutableArray *toolbarItems = [NSMutableArray arrayWithArray:[self.mToolbar items]];
     [toolbarItems addObject:scrubberItem];
     [toolbarItems addObject:durationItem];
+    [toolbarItems addObject:mPlayButton];
     self.mToolbar.items = toolbarItems;
     
-    // test gyroscope
     motionManager = [[CMMotionManager alloc] init];
     mViewIsChanging = false;
     mControlModeIsFinger = true;
@@ -220,7 +220,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 -(void)showStopButton
 {
     NSMutableArray *toolbarItems = [NSMutableArray arrayWithArray:[self.mToolbar items]];
-    [toolbarItems replaceObjectAtIndex:1 withObject:self.mStopButton];
+    [toolbarItems replaceObjectAtIndex:3 withObject:self.mStopButton];
     self.mToolbar.items = toolbarItems;
 }
 
@@ -228,7 +228,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 -(void)showPlayButton
 {
     NSMutableArray *toolbarItems = [NSMutableArray arrayWithArray:[self.mToolbar items]];
-    [toolbarItems replaceObjectAtIndex:1 withObject:self.mPlayButton];
+    [toolbarItems replaceObjectAtIndex:3 withObject:self.mPlayButton];
     self.mToolbar.items = toolbarItems;
 }
 

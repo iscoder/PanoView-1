@@ -18,6 +18,8 @@
 		F68C8C7517CBA00F0071F4A9 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68C8C7417CBA00F0071F4A9 /* MobileCoreServices.framework */; };
 		F68C8C7A17CBC1710071F4A9 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = F68C8C7617CBBEFC0071F4A9 /* Shader.fsh */; };
 		F68C8C7B17CBC1730071F4A9 /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = F68C8C7717CBBEFC0071F4A9 /* Shader.vsh */; };
+		F68CFB5717EF2169007DB415 /* iPhoneIcon_Small-2.png in Resources */ = {isa = PBXBuildFile; fileRef = F68CFB5617EF2169007DB415 /* iPhoneIcon_Small-2.png */; };
+		F68CFB5917EF21D1007DB415 /* iPhoneIcon_Big-1.png in Resources */ = {isa = PBXBuildFile; fileRef = F68CFB5817EF21D1007DB415 /* iPhoneIcon_Big-1.png */; };
 		F68EB82317C9BF2300C4BE78 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68EB82217C9BF2300C4BE78 /* UIKit.framework */; };
 		F68EB82517C9BF2300C4BE78 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68EB82417C9BF2300C4BE78 /* Foundation.framework */; };
 		F68EB82717C9BF2300C4BE78 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68EB82617C9BF2300C4BE78 /* CoreGraphics.framework */; };
@@ -68,6 +70,8 @@
 		F68C8C7417CBA00F0071F4A9 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		F68C8C7617CBBEFC0071F4A9 /* Shader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.fsh; sourceTree = "<group>"; };
 		F68C8C7717CBBEFC0071F4A9 /* Shader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.vsh; sourceTree = "<group>"; };
+		F68CFB5617EF2169007DB415 /* iPhoneIcon_Small-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iPhoneIcon_Small-2.png"; path = "../iPhoneIcon_Small-2.png"; sourceTree = "<group>"; };
+		F68CFB5817EF21D1007DB415 /* iPhoneIcon_Big-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iPhoneIcon_Big-1.png"; path = "../iPhoneIcon_Big-1.png"; sourceTree = "<group>"; };
 		F68EB81F17C9BF2300C4BE78 /* PanoView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PanoView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F68EB82217C9BF2300C4BE78 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F68EB82417C9BF2300C4BE78 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -223,6 +227,8 @@
 		F68EB82917C9BF2300C4BE78 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F68CFB5817EF21D1007DB415 /* iPhoneIcon_Big-1.png */,
+				F68CFB5617EF2169007DB415 /* iPhoneIcon_Small-2.png */,
 				F68EB82A17C9BF2300C4BE78 /* PanoView-Info.plist */,
 				F68EB82B17C9BF2300C4BE78 /* InfoPlist.strings */,
 				F68EB82E17C9BF2300C4BE78 /* main.m */,
@@ -327,6 +333,8 @@
 				F68EB84617C9BF2300C4BE78 /* first@2x.png in Resources */,
 				F68EB84B17C9BF2300C4BE78 /* second.png in Resources */,
 				F68EB84D17C9BF2300C4BE78 /* second@2x.png in Resources */,
+				F68CFB5717EF2169007DB415 /* iPhoneIcon_Small-2.png in Resources */,
+				F68CFB5917EF21D1007DB415 /* iPhoneIcon_Big-1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

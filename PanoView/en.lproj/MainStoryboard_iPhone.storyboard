@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12F37" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="4">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
@@ -94,22 +94,16 @@
                         <rect key="frame" x="0.0" y="20" width="568" height="256"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackTranslucent" translatesAutoresizingMaskIntoConstraints="NO" id="Kr3-To-eZH">
+                            <toolbar opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" alpha="0.80000000000000004" contentMode="scaleToFill" barStyle="blackTranslucent" translatesAutoresizingMaskIntoConstraints="NO" id="Kr3-To-eZH">
                                 <items>
                                     <barButtonItem systemItem="rewind" id="gYc-mK-Ehb">
                                         <connections>
                                             <action selector="rewind:" destination="br2-mm-IR0" id="HID-sU-EVD"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem systemItem="play" id="e3W-Un-0sD">
-                                        <connections>
-                                            <action selector="playPlayer:" destination="REQ-Sh-gma" id="Pi2-gN-XfT"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="tnd-s7-tUa"/>
                                 </items>
                             </toolbar>
-                            <toolbar opaque="NO" clipsSubviews="YES" contentMode="top" barStyle="blackTranslucent" translatesAutoresizingMaskIntoConstraints="NO" id="Njv-Dx-NEZ">
+                            <toolbar opaque="NO" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="top" barStyle="blackTranslucent" translatesAutoresizingMaskIntoConstraints="NO" id="Njv-Dx-NEZ">
                                 <items>
                                     <barButtonItem title="My Video" id="YHx-Hm-2b8">
                                         <connections>
@@ -118,6 +112,7 @@
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="k0P-vO-Nne"/>
                                     <barButtonItem style="plain" id="bT9-hx-XgY">
+                                        <inset key="imageInsets" minX="0.0" minY="-1" maxX="0.0" maxY="0.0"/>
                                         <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="its-M2-T71">
                                             <rect key="frame" x="211" y="8" width="161" height="31"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -154,8 +149,8 @@
                             <constraint firstItem="Kr3-To-eZH" firstAttribute="trailing" secondItem="F7d-3q-Gj0" secondAttribute="trailing" type="default" id="8Kf-IZ-HPr"/>
                             <constraint firstItem="Kr3-To-eZH" firstAttribute="bottom" secondItem="F7d-3q-Gj0" secondAttribute="bottom" type="default" id="GBL-Jq-q6d"/>
                             <constraint firstItem="Kr3-To-eZH" firstAttribute="leading" secondItem="F7d-3q-Gj0" secondAttribute="leading" type="default" id="Nch-4l-yyC"/>
+                            <constraint firstItem="Njv-Dx-NEZ" firstAttribute="top" secondItem="F7d-3q-Gj0" secondAttribute="top" constant="-5" id="rVu-UY-XVB"/>
                             <constraint firstItem="Njv-Dx-NEZ" firstAttribute="trailing" secondItem="F7d-3q-Gj0" secondAttribute="trailing" type="default" id="sRb-gV-oWm"/>
-                            <constraint firstItem="Njv-Dx-NEZ" firstAttribute="top" secondItem="F7d-3q-Gj0" secondAttribute="top" type="default" id="wDE-pY-J0Y"/>
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         <connections>
@@ -168,9 +163,14 @@
                                 <action selector="pausePlayer:" destination="REQ-Sh-gma" id="Elz-gX-wgO"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem systemItem="play" id="e3W-Un-0sD">
+                            <connections>
+                                <action selector="playPlayer:" destination="REQ-Sh-gma" id="Pi2-gN-XfT"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" id="hHS-zJ-iTv">
                             <slider key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" id="dii-GR-3bN">
-                                <rect key="frame" x="47" y="9" width="280" height="27"/>
+                                <rect key="frame" x="89" y="9" width="280" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <action selector="beginScrubbing:" destination="br2-mm-IR0" eventType="touchDown" id="HQ2-O4-Blo"/>
@@ -319,51 +319,6 @@
             <point key="canvasLocation" x="-1590" y="-1802"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="APLEAGLView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/APLEAGLView.h"/>
-        </class>
-        <class className="APLViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/APLViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="beginScrubbing:"/>
-                <relationship kind="action" name="changeControl"/>
-                <relationship kind="action" name="changeView"/>
-                <relationship kind="action" name="endScrubbing:"/>
-                <relationship kind="action" name="goBackToMyVideoList:"/>
-                <relationship kind="action" name="handleTapGesture:" candidateClass="UITapGestureRecognizer"/>
-                <relationship kind="action" name="pausePlayer:"/>
-                <relationship kind="action" name="playPlayer:"/>
-                <relationship kind="action" name="rewind:"/>
-                <relationship kind="action" name="scrub:"/>
-                <relationship kind="outlet" name="controlChoice" candidateClass="UISegmentedControl"/>
-                <relationship kind="outlet" name="mCurrentTime" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="mDuration" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="mPlayButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="mScrubber" candidateClass="UISlider"/>
-                <relationship kind="outlet" name="mStopButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="mToolbar" candidateClass="UIToolbar"/>
-                <relationship kind="outlet" name="mTopBar" candidateClass="UIToolbar"/>
-                <relationship kind="outlet" name="playerView" candidateClass="APLEAGLView"/>
-                <relationship kind="outlet" name="viewChoice" candidateClass="UISegmentedControl"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="PVDownloadViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PVDownloadViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="fetchSampleVideo:"/>
-            </relationships>
-        </class>
-        <class className="PVMyVideoController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PVMyVideoController.h"/>
-        </class>
-        <class className="PVOnlineViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PVOnlineViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
