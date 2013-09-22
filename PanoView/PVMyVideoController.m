@@ -61,7 +61,7 @@
     }
 
     NSString *videoFileName = [myVideoList objectAtIndex:indexPath.row];
-    cell.textLabel.text = videoFileName;
+    cell.textLabel.text = [videoFileName stringByDeletingPathExtension];
 
     NSURL *videoURL = [NSURL fileURLWithPath:[docPath stringByAppendingPathComponent:videoFileName]];
     

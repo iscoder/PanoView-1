@@ -140,7 +140,7 @@
     }
     ASIHTTPRequest *request = [[networkQueue operations] objectAtIndex:indexPath.row];
     NSString *download = [[request downloadDestinationPath] lastPathComponent];
-    cell.textLabel.text = download;
+    cell.textLabel.text = [download stringByDeletingPathExtension];
     cell.detailTextLabel.text = @"---";
     // Configure the cell...
     UIProgressView *progress;
