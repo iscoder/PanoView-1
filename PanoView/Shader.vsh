@@ -7,7 +7,7 @@
 
 #define PI 3.14159265
 #define TWOPI 6.2831853
-#define SCALE 1.0
+#define SCALE 0.8
 
 attribute vec4 position;
 attribute vec2 texCoord;
@@ -56,7 +56,7 @@ void littleplanet()
 	float v = (texCoord.y - 0.5) * 8.0;
     
 	float rho = sqrt( u * u + v * v);
-	float c = 2.0 * atan( rho / 2.0 / SCALE); // SCALE is the radius
+	float c = 2.0 * atan( rho / 2.0 / (SCALE*1.25)); // SCALE is the radius
 	float sinc = sin(c);
 	float cosc = cos(c);
  
