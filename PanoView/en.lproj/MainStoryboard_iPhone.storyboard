@@ -280,7 +280,13 @@
                             </tableViewCell>
                         </prototypes>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Online Library" id="ks3-I0-rjZ"/>
+                    <navigationItem key="navigationItem" title="Online Library" id="ks3-I0-rjZ">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="3cg-WK-fTn">
+                            <connections>
+                                <action selector="reloadURLs" destination="t9p-Tw-Esw" id="IjT-wl-TCi"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uG9-eI-AwV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -319,6 +325,54 @@
             <point key="canvasLocation" x="-1590" y="-1802"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="APLEAGLView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/APLEAGLView.h"/>
+        </class>
+        <class className="APLViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/APLViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="beginScrubbing:"/>
+                <relationship kind="action" name="changeControl"/>
+                <relationship kind="action" name="changeView"/>
+                <relationship kind="action" name="endScrubbing:"/>
+                <relationship kind="action" name="goBackToMyVideoList:"/>
+                <relationship kind="action" name="handleTapGesture:" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="action" name="pausePlayer:"/>
+                <relationship kind="action" name="playPlayer:"/>
+                <relationship kind="action" name="rewind:"/>
+                <relationship kind="action" name="scrub:"/>
+                <relationship kind="outlet" name="controlChoice" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="mCurrentTime" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="mDuration" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="mPlayButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="mScrubber" candidateClass="UISlider"/>
+                <relationship kind="outlet" name="mStopButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="mToolbar" candidateClass="UIToolbar"/>
+                <relationship kind="outlet" name="mTopBar" candidateClass="UIToolbar"/>
+                <relationship kind="outlet" name="playerView" candidateClass="APLEAGLView"/>
+                <relationship kind="outlet" name="viewChoice" candidateClass="UISegmentedControl"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="PVDownloadViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PVDownloadViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="fetchSampleVideo:"/>
+            </relationships>
+        </class>
+        <class className="PVMyVideoController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PVMyVideoController.h"/>
+        </class>
+        <class className="PVOnlineViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PVOnlineViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="reloadURLs"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

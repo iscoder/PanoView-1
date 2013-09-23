@@ -7,14 +7,31 @@
 //
 
 #import "PVOnlineViewController.h"
+#import "ASIHTTPRequest.h"
 #import "PVAppDelegate.h"
 #import "PVDownloadViewController.h"
+
+@interface SizableImageCell2 : UITableViewCell{}
+@end
+@implementation SizableImageCell2
+- (void) layoutSubviews {
+    [super layoutSubviews];
+    float desiredWidth = 100;
+    float w = self.imageView.frame.size.width;
+    float widthSub = w - desiredWidth;
+    self.imageView.frame = CGRectMake(self.imageView.frame.origin.x+2,self.imageView.frame.origin.y,desiredWidth,self.imageView.frame.size.height);
+    self.textLabel.frame = CGRectMake(self.textLabel.frame.origin.x-widthSub,self.textLabel.frame.origin.y,self.textLabel.frame.size.width+widthSub,self.textLabel.frame.size.height);
+    self.detailTextLabel.frame = CGRectMake(self.detailTextLabel.frame.origin.x-widthSub,self.detailTextLabel.frame.origin.y,self.detailTextLabel.frame.size.width+widthSub,self.detailTextLabel.frame.size.height);
+    self.imageView.contentMode = UIViewContentModeScaleAspectFit;
+}
+@end
 
 @interface PVOnlineViewController()
 {
     NSMutableArray *urlList;
+    NSMutableArray *thumbnailList;
 }
-
+-(IBAction)reloadURLs;
 @end
 
 @implementation PVOnlineViewController
@@ -30,8 +47,8 @@
 
 - (void)viewDidLoad
 {
-    [self setupLib];
     [super viewDidLoad];
+    [self setupLib];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -40,18 +57,75 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
-- (void)setupLib
+- (void)initLists
 {
     if (urlList == nil)
-    {
         urlList = [[NSMutableArray alloc] init];
-    }
-    NSURL *url1 = [NSURL URLWithString:@"https://dl.dropboxusercontent.com/u/585032/Marinabay.mp4"];
-    NSURL *url2 = [NSURL URLWithString:@"https://dl.dropboxusercontent.com/u/585032/Hollandvillage.mp4"];
-    NSURL *url3 = [NSURL URLWithString:@"https://dl.dropboxusercontent.com/u/585032/Navymuseum.m4v"];
-    [urlList addObject:url1];
-    [urlList addObject:url2];
-    [urlList addObject:url3];
+    else
+        [urlList removeAllObjects];
+    
+    if (thumbnailList == nil)
+        thumbnailList = [[NSMutableArray alloc] init];
+    else
+        [thumbnailList removeAllObjects];
+}
+
+-(IBAction)reloadURLs
+{
+    [self setupLib];
+}
+
+- (void)setupLib
+{
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner.center = CGPointMake(160, 200);
+    
+    [self.view addSubview:spinner];
+    [spinner startAnimating];
+
+    NSURL *url = [NSURL URLWithString:@"https://dl.dropboxusercontent.com/u/585032/PanoView/videolist.txt"];
+    __block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    [request setCompletionBlock:^{
+        NSString *dd = [request responseString];
+        NSMutableArray* lines = [NSMutableArray arrayWithArray:[dd componentsSeparatedByString:@"|"]];
+        for ( int i = 0; i < [lines count]; i ++)
+        {
+            NSString* str = [lines objectAtIndex:i];
+            [lines replaceObjectAtIndex:i withObject:[str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+        }
+        [self initLists];
+        [lines removeObject:@""];
+        if ([lines count]%3 == 0)
+        {
+            for ( int i = 0; i < [lines count] / 3; i++ )
+            {
+                NSURL* url = [NSURL URLWithString:[lines objectAtIndex:(i*3+1)]];
+                [urlList addObject:url];
+                NSURL* thumbnail = [NSURL URLWithString:[lines objectAtIndex:(i*3+2)]];
+                
+                ASIHTTPRequest *rq = [ASIHTTPRequest requestWithURL:thumbnail];
+                [rq startSynchronous];
+                UIImage* img = [UIImage imageWithData:[rq responseData]];
+                if (img != nil)
+                    [thumbnailList addObject:img];
+                else
+                {
+                    [thumbnailList addObject:[UIImage imageNamed:@"first.png"]];
+                }
+            }
+        }
+        if (self.view)
+            [self.tableView reloadData];
+        [spinner stopAnimating];
+    }];
+    [request setFailedBlock:^{
+        // NSError *error = [request error];
+        [spinner stopAnimating];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Network failed" message:@"Failed to load online library" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    }];
+    [request startAsynchronous];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -81,16 +155,23 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"LibCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    SizableImageCell2 *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier ];
+        cell = [[SizableImageCell2 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier ];
     }
     
-    NSString *urlFileName = [[[urlList objectAtIndex:indexPath.row] absoluteString] lastPathComponent];
-    cell.textLabel.text = urlFileName;
+    // NSString *urlFileName = [[[urlList objectAtIndex:indexPath.row] absoluteString] lastPathComponent];
+    NSString *urlFileName = [[[urlList objectAtIndex:indexPath.row] path] lastPathComponent];
+    cell.textLabel.text = [urlFileName stringByDeletingPathExtension];
     
+    cell.imageView.image = [thumbnailList objectAtIndex:indexPath.row];
     
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+        return 62;
 }
 
 /*
@@ -147,6 +228,8 @@
     PVAppDelegate *appDelegate = (PVAppDelegate *)[[UIApplication sharedApplication] delegate];
     NSURL *url = [urlList objectAtIndex:indexPath.row];
     [appDelegate.vcDownload addURLToQueue:url];
+    // to flash the selection
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
 }
 
