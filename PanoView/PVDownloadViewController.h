@@ -12,6 +12,8 @@
 @interface PVDownloadViewController : UITableViewController
 {
     ASINetworkQueue *networkQueue;
+    NSMutableArray *urlList;
+    IBOutlet UIBarButtonItem * mretryButton;
 }
 
 - (IBAction)fetchSampleVideo:(id)sender;

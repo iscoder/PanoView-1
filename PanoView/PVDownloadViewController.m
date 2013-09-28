@@ -85,12 +85,44 @@
 
 - (void)addURLToQueue:(NSURL *)url
 {
+    if (![urlList containsObject:url])
+    {
+        [urlList addObject:url];
+        [self addURLToNetworkQueue:url];
+    }
+}
+
+- (IBAction)retryFailed:(id)sender
+{
+    for ( NSURL* url in urlList)
+    {
+        bool isInProgress = false;
+        ASIHTTPRequest *request;
+        for ( int i = 0; i < networkQueue.requestsCount && !isInProgress; i++)
+        {
+            request = [[networkQueue operations] objectAtIndex:i];
+            if (url == [request url])
+                isInProgress = true;
+        }
+        if (!isInProgress)
+            [self addURLToNetworkQueue:url];
+    }
+    if (self.view != nil)
+        [self reloadData];
+
+}
+
+- (void)addURLToNetworkQueue:(NSURL *)url
+{
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     NSString *filename = [[url path] lastPathComponent];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *docPath = [paths objectAtIndex:0];
 	[request setDownloadDestinationPath:[docPath
                                          stringByAppendingPathComponent:filename]];
+    
+    [request setTemporaryFileDownloadPath:[NSTemporaryDirectory() stringByAppendingPathComponent:filename]];
+    [request setAllowResumeForFileDownloads:YES];
 	[networkQueue addOperation:request];
     [self reloadData];
 }
@@ -98,6 +130,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [mretryButton setEnabled:NO];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -125,7 +158,8 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return networkQueue.requestsCount;
+    // return networkQueue.requestsCount;
+    return [urlList count];
 }
 
 
@@ -134,51 +168,94 @@
     static NSString *CellIdentifier = @"Cell";
             
     ProgressTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    // ProgressTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[ProgressTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier ];
     }
-    ASIHTTPRequest *request = [[networkQueue operations] objectAtIndex:indexPath.row];
-    NSString *download = [[request downloadDestinationPath] lastPathComponent];
-    cell.textLabel.text = [download stringByDeletingPathExtension];
-    cell.detailTextLabel.text = @"---";
-    // Configure the cell...
-    UIProgressView *progress;
-    progress = [[UIProgressView alloc] initWithFrame:cell.progressRect];
-    [cell.contentView addSubview:progress];
-    [request setDownloadProgressDelegate:progress];
+    NSURL* url = [urlList objectAtIndex:indexPath.row];
     
-    int size = [[request.responseHeaders objectForKey:@"Content-length"] intValue];
-    if (size > 0)
+    bool isInProgress = false;
+    ASIHTTPRequest *request;
+    for ( int i = 0; i < networkQueue.requestsCount && !isInProgress; i++)
     {
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%.02f MB"
+        request = [[networkQueue operations] objectAtIndex:i];
+        if (url == [request url])
+            isInProgress = true;
+    }
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.textLabel.text = [[[url path] lastPathComponent] stringByDeletingPathExtension];
+    
+    
+    if (isInProgress)
+    {
+        cell.detailTextLabel.text = @"---";
+        // Configure the cell...
+        UIProgressView *progress;
+        progress = [[UIProgressView alloc] initWithFrame:cell.progressRect];
+        progress.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        [cell.contentView addSubview:progress];
+//        [cell.contentView setAutoresizesSubviews:YES];
+        [request setDownloadProgressDelegate:progress];
+    
+        // int size = [[request.responseHeaders objectForKey:@"Content-length"] intValue];
+        unsigned long long size = request.contentLength + request.partialDownloadSize;
+        if (size > request.partialDownloadSize)
+        {
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%.02f MB"
                                          , size / 1024 / 1024.0 ];
+        }
+    }
+    else
+    {
+        cell.detailTextLabel.text = @"Failed";
     }
     return cell;
 }
 
-/*
+
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
 
-/*
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
+        NSURL* url = [urlList objectAtIndex:indexPath.row];
+        bool isInProgress = false;
+        ASIHTTPRequest *request;
+        for ( int i = 0; i < networkQueue.requestsCount && !isInProgress; i++)
+        {
+            request = [[networkQueue operations] objectAtIndex:i];
+            if (url == [request url])
+                isInProgress = true;
+        }
+        if (isInProgress)
+        {
+            [request cancel];
+            [request removeTemporaryDownloadFile];
+        }
+        [urlList removeObject:url];
+        if (self.view != nil)
+            [self reloadData];
+        // [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
+    /*
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+    } 
+    */
 }
-*/
+
 
 /*
 // Override to support rearranging the table view.
@@ -209,9 +286,10 @@
      */
 }
 
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 50;
+    return 55;
 }
 
 -(id) initWithCoder:(NSCoder *)aDecoder
@@ -220,14 +298,28 @@
     appDelegate.vcDownload = self;
     if (!networkQueue) {
         networkQueue = [[ASINetworkQueue alloc] init];
-        [networkQueue setMaxConcurrentOperationCount:1];
+        [networkQueue setMaxConcurrentOperationCount:2];
         [networkQueue setShowAccurateProgress:YES];
         [networkQueue setDelegate:self];
         [networkQueue setRequestDidReceiveResponseHeadersSelector:@selector(request:receivedResponseHeaders:)];
         [networkQueue setRequestDidFinishSelector:@selector(requestFinished:)];
         [networkQueue setRequestDidFailSelector:@selector(requestFailed:)];
+        [networkQueue setShouldCancelAllRequestsOnFailure:NO];
         [networkQueue go];
     }
+    
+    // Will limit bandwidth to the predefined default for mobile applications when WWAN is active.
+    // Wi-Fi requests are not affected
+    //[ASIHTTPRequest setShouldThrottleBandwidthForWWAN:YES];
+    
+    // Will throttle bandwidth based on a user-defined limit when when WWAN (not Wi-Fi) is active
+    //[ASIHTTPRequest throttleBandwidthForWWANUsingLimit:14800];
+    
+    // Will prevent requests from using more than the predefined limit for mobile applications.
+    // Will limit ALL requests, regardless of whether Wi-Fi is in use or not - USE WITH CAUTION
+    // [ASIHTTPRequest setMaxBandwidthPerSecond:ASIWWANBandwidthThrottleAmount];
+    if (urlList == nil)
+        urlList = [[NSMutableArray alloc] init];
     return [super initWithCoder:aDecoder];
 }
 
@@ -243,6 +335,7 @@
         [self.navigationController.tabBarItem setBadgeValue:nil];
 }
 
+
 -(void)request:(ASIHTTPRequest *)request receivedResponseHeaders:(NSDictionary *)responseHeaders{
     // if header says it is not video, then cancel the request
     if (![[responseHeaders objectForKey:@"Content-type"] isEqualToString:@"video/mp4"])
@@ -252,8 +345,11 @@
 }
 -(void)requestFinished:(ASIHTTPRequest *)request
 {
+    [urlList removeObject:[request url]];
     if (self.view != nil)
         [self reloadData];
+
+    // refresh MyVideo tab
     PVAppDelegate *appDelegate = (PVAppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate.vcMyVideo reloadVideoFiles];
 }
@@ -261,10 +357,15 @@
 
 -(void)requestFailed:(ASIHTTPRequest *) request
 {
+/*
     if ([[request error] domain] != NetworkRequestErrorDomain || [[request error] code] != ASIRequestCancelledErrorType) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Download failed" message:@"Failed to download video" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
     }
+ */
+    if (self.view != nil)
+        [self reloadData];
+    [mretryButton setEnabled:YES];
 }
 
 @end

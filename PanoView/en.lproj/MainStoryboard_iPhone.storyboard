@@ -249,7 +249,16 @@
                             </tableViewCell>
                         </prototypes>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Download" id="hQg-06-QMg"/>
+                    <navigationItem key="navigationItem" title="Download" id="hQg-06-QMg">
+                        <barButtonItem key="rightBarButtonItem" title="Retry" id="xxH-dQ-dwk">
+                            <connections>
+                                <action selector="retryFailed:" destination="zZw-s2-pkI" id="1Kv-Zp-2Q1"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="mretryButton" destination="xxH-dQ-dwk" id="rmX-Ff-x0c"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Akg-WY-QnG" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <barButtonItem systemItem="add" id="yXc-vv-fEt">
@@ -361,6 +370,8 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PVDownloadViewController.h"/>
             <relationships>
                 <relationship kind="action" name="fetchSampleVideo:"/>
+                <relationship kind="action" name="retryFailed:"/>
+                <relationship kind="outlet" name="mretryButton" candidateClass="UIBarButtonItem"/>
             </relationships>
         </class>
         <class className="PVMyVideoController" superclassName="UITableViewController">
