@@ -44,6 +44,7 @@
 		F6BFB45F17F6E18E00C3CAC4 /* film_24.png in Resources */ = {isa = PBXBuildFile; fileRef = F6BFB45C17F6E18E00C3CAC4 /* film_24.png */; };
 		F6BFB46017F6E18E00C3CAC4 /* film_48.png in Resources */ = {isa = PBXBuildFile; fileRef = F6BFB45D17F6E18E00C3CAC4 /* film_48.png */; };
 		F6BFB46117F6E18E00C3CAC4 /* film_64.png in Resources */ = {isa = PBXBuildFile; fileRef = F6BFB45E17F6E18E00C3CAC4 /* film_64.png */; };
+		F6BFB46317F6E28900C3CAC4 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F6BFB46217F6E28900C3CAC4 /* Default-568h@2x.png */; };
 		F6E15C4417D8E6F50042F33E /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = F6E15C3117D8E6F50042F33E /* ASIAuthenticationDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F6E15C4517D8E6F50042F33E /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = F6E15C3417D8E6F50042F33E /* ASIDataCompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F6E15C4617D8E6F50042F33E /* ASIDataDecompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = F6E15C3617D8E6F50042F33E /* ASIDataDecompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -87,19 +88,12 @@
 		F68EB83017C9BF2300C4BE78 /* PanoView-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PanoView-Prefix.pch"; sourceTree = "<group>"; };
 		F68EB83117C9BF2300C4BE78 /* PVAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PVAppDelegate.h; sourceTree = "<group>"; };
 		F68EB83217C9BF2300C4BE78 /* PVAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PVAppDelegate.m; sourceTree = "<group>"; };
-		F68EB83417C9BF2300C4BE78 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		F68EB83617C9BF2300C4BE78 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		F68EB83817C9BF2300C4BE78 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		F68EB83B17C9BF2300C4BE78 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		F68EB83E17C9BF2300C4BE78 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		F68EB84017C9BF2300C4BE78 /* PVFirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PVFirstViewController.h; sourceTree = "<group>"; };
 		F68EB84117C9BF2300C4BE78 /* PVFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PVFirstViewController.m; sourceTree = "<group>"; };
-		F68EB84317C9BF2300C4BE78 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
-		F68EB84517C9BF2300C4BE78 /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
 		F68EB84717C9BF2300C4BE78 /* PVSecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PVSecondViewController.h; sourceTree = "<group>"; };
 		F68EB84817C9BF2300C4BE78 /* PVSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PVSecondViewController.m; sourceTree = "<group>"; };
-		F68EB84A17C9BF2300C4BE78 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
-		F68EB84C17C9BF2300C4BE78 /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
 		F68EB85617CA26AD00C4BE78 /* PVMyVideoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVMyVideoController.h; sourceTree = "<group>"; };
 		F68EB85717CA26AD00C4BE78 /* PVMyVideoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVMyVideoController.m; sourceTree = "<group>"; };
 		F68EB85917CA346800C4BE78 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -115,6 +109,7 @@
 		F6BFB45C17F6E18E00C3CAC4 /* film_24.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = film_24.png; path = ../film_24.png; sourceTree = "<group>"; };
 		F6BFB45D17F6E18E00C3CAC4 /* film_48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = film_48.png; path = ../film_48.png; sourceTree = "<group>"; };
 		F6BFB45E17F6E18E00C3CAC4 /* film_64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = film_64.png; path = ../film_64.png; sourceTree = "<group>"; };
+		F6BFB46217F6E28900C3CAC4 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		F6E15C3017D8E6F50042F33E /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIAuthenticationDialog.h; sourceTree = "<group>"; };
 		F6E15C3117D8E6F50042F33E /* ASIAuthenticationDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIAuthenticationDialog.m; sourceTree = "<group>"; };
 		F6E15C3217D8E6F50042F33E /* ASICacheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASICacheDelegate.h; sourceTree = "<group>"; };
@@ -230,11 +225,7 @@
 				F68EB84017C9BF2300C4BE78 /* PVFirstViewController.h */,
 				F68EB84817C9BF2300C4BE78 /* PVSecondViewController.m */,
 				F68EB84117C9BF2300C4BE78 /* PVFirstViewController.m */,
-				F68EB84317C9BF2300C4BE78 /* first.png */,
-				F68EB84517C9BF2300C4BE78 /* first@2x.png */,
 				F68EB84717C9BF2300C4BE78 /* PVSecondViewController.h */,
-				F68EB84A17C9BF2300C4BE78 /* second.png */,
-				F68EB84C17C9BF2300C4BE78 /* second@2x.png */,
 				F6E15C2F17D8E6C10042F33E /* ASIHTTPRequest */,
 				F68EB82917C9BF2300C4BE78 /* Supporting Files */,
 			);
@@ -244,6 +235,7 @@
 		F68EB82917C9BF2300C4BE78 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F6BFB46217F6E28900C3CAC4 /* Default-568h@2x.png */,
 				F6BFB45C17F6E18E00C3CAC4 /* film_24.png */,
 				F6BFB45D17F6E18E00C3CAC4 /* film_48.png */,
 				F6BFB45E17F6E18E00C3CAC4 /* film_64.png */,
@@ -262,9 +254,6 @@
 				F68EB82B17C9BF2300C4BE78 /* InfoPlist.strings */,
 				F68EB82E17C9BF2300C4BE78 /* main.m */,
 				F68EB83017C9BF2300C4BE78 /* PanoView-Prefix.pch */,
-				F68EB83417C9BF2300C4BE78 /* Default.png */,
-				F68EB83617C9BF2300C4BE78 /* Default@2x.png */,
-				F68EB83817C9BF2300C4BE78 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -369,6 +358,7 @@
 				F68EB83F17C9BF2300C4BE78 /* MainStoryboard_iPad.storyboard in Resources */,
 				F68CFB5717EF2169007DB415 /* iPhoneIcon_Small-2.png in Resources */,
 				F68CFB5917EF21D1007DB415 /* iPhoneIcon_Big-1.png in Resources */,
+				F6BFB46317F6E28900C3CAC4 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
