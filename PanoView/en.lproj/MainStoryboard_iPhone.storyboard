@@ -34,7 +34,7 @@
             </objects>
             <point key="canvasLocation" x="-1033" y="-2497"/>
         </scene>
-        <!--View Controller - About-->
+        <!--View Controller - Info-->
         <scene sceneID="pZq-FG-bM0">
             <objects>
                 <viewController id="Fb2-WZ-zgU" sceneMemberID="viewController">
@@ -59,7 +59,7 @@
                             <constraint firstItem="wFo-49-rwn" firstAttribute="leading" secondItem="qPQ-BQ-ais" secondAttribute="leading" constant="74" id="r1P-gc-5CM"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="About" id="Jrq-S0-rGK"/>
+                    <tabBarItem key="tabBarItem" title="Info" image="info_24.png" id="Jrq-S0-rGK"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3rH-ap-1dR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -217,7 +217,7 @@
         <scene sceneID="WBA-i8-1qO">
             <objects>
                 <navigationController definesPresentationContext="YES" id="oil-tY-FhH" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="My Video" id="fbv-qT-lBP"/>
+                    <tabBarItem key="tabBarItem" title="My Video" image="film_24.png" id="fbv-qT-lBP"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="blackOpaque" id="bye-Rg-ysB">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -305,7 +305,7 @@
         <scene sceneID="ds7-Lk-BYI">
             <objects>
                 <navigationController title="Online Library" definesPresentationContext="YES" id="n4U-C5-UYx" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Online Library" id="7Yd-4u-eCE"/>
+                    <tabBarItem key="tabBarItem" title="Online Library" image="globe_24.png" id="7Yd-4u-eCE"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="blackOpaque" id="Ip3-3p-hea">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -321,7 +321,7 @@
         <scene sceneID="TvS-72-2pF">
             <objects>
                 <navigationController definesPresentationContext="YES" id="CwG-ZF-5xh" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Download" id="avR-HE-Tex"/>
+                    <tabBarItem key="tabBarItem" title="Download" image="inbox_24.png" id="avR-HE-Tex"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="blackOpaque" id="ssf-G4-7lg">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -334,6 +334,12 @@
             <point key="canvasLocation" x="-1590" y="-1802"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="film_24.png" width="24" height="24"/>
+        <image name="globe_24.png" width="24" height="24"/>
+        <image name="inbox_24.png" width="24" height="24"/>
+        <image name="info_24.png" width="24" height="24"/>
+    </resources>
     <classes>
         <class className="APLEAGLView" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/APLEAGLView.h"/>
