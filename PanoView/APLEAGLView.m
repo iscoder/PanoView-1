@@ -345,8 +345,8 @@ static const GLfloat kColorConversion709[] = {
      The quad vertex data defines the region of 2D plane onto which we draw our pixel buffers.
      Vertex data formed using (-1,-1) and (1,1) as the bottom left and top right coordinates respectively, covers the entire screen.
      */
-    const int panoSampleW = 100;
-    const int panoSampleH = 100;
+    const int panoSampleW = 80;
+    const int panoSampleH = 80;
     GLfloat quadVertexData [panoSampleW * panoSampleH * 2];
     GLfloat quadTextureData[panoSampleW * panoSampleH * 2];
     for (int i = 0; i < panoSampleW; i++)

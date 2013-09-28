@@ -24,6 +24,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     id _timeObserver;
     float mRestoreAfterScrubbingRate;
     bool mViewIsChanging;
+    bool mforceViewRefresh;
     bool mControlModeIsFinger; // true for finger only, false for motion
     
     float motionRefLongitude;
@@ -96,6 +97,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     
     motionManager = [[CMMotionManager alloc] init];
     mViewIsChanging = false;
+    mforceViewRefresh = false;
     mControlModeIsFinger = true;
 }
 
@@ -461,13 +463,15 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 	
 	outputItemTime = [[self videoOutput] itemTimeForHostTime:nextVSync];
 	
-	if ([[self videoOutput] hasNewPixelBufferForItemTime:outputItemTime] || mViewIsChanging) {
+	if ([[self videoOutput] hasNewPixelBufferForItemTime:outputItemTime] || mViewIsChanging || mforceViewRefresh) {
 		CVPixelBufferRef pixelBuffer = NULL;
 		pixelBuffer = [[self videoOutput] copyPixelBufferForItemTime:outputItemTime itemTimeForDisplay:NULL];
 		
 		[[self playerView] displayPixelBuffer:pixelBuffer];
+        mforceViewRefresh = false;
 	}
 }
+
 
 #pragma mark - AVPlayerItemOutputPullDelegate
 
@@ -538,6 +542,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
         self.playerView.longitude = 0.5;
         self.playerView.lattitude = 1.0;
     }
+    mforceViewRefresh = true;
     [self.playerView updateInternal];
 }
 
