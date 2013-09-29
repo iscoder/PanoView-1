@@ -102,6 +102,16 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     mViewIsChanging = false;
     mforceViewRefresh = false;
     mControlModeIsFinger = true;
+    
+    
+    // ios 7.0 top toolbar should be placed after status bar
+    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1) {
+        mTopBar.tintColor = [UIColor whiteColor];
+        CGRect frame = self.mTopBar.frame;
+        frame.origin.y = frame.origin.y + 20;
+        self.mTopBar.frame = frame;
+        mToolbar.tintColor = [UIColor whiteColor];
+    }
 }
 
 -(void)startGyro {

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="4510" systemVersion="12F37" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none" useAutolayout="YES" initialViewController="4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F37" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="4">
     <dependencies>
         <deployment defaultVersion="1552" identifier="iOS"/>
-        <development version="4600" identifier="xcode"/>
+        <development version="5000" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <scenes>
@@ -10,19 +10,18 @@
         <scene sceneID="pDc-gL-BEl">
             <objects>
                 <tableViewController id="HyQ-Pz-3Jd" customClass="PVMyVideoController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="62" sectionHeaderHeight="22" sectionFooterHeight="22" id="G3N-zT-mGC">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="62" sectionHeaderHeight="22" sectionFooterHeight="22" id="G3N-zT-mGC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MyVideoListCell" rowHeight="62" id="avy-7A-8DD">
-                                <rect key="frame" x="0.0" y="22" width="320" height="62"/>
+                                <rect key="frame" x="0.0" y="86" width="320" height="62"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="avy-7A-8DD" id="6GB-ng-bfn">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="61"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
+                                </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -40,8 +39,12 @@
         <scene sceneID="pZq-FG-bM0">
             <objects>
                 <viewController id="Fb2-WZ-zgU" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ry7-f5-EST"/>
+                        <viewControllerLayoutGuide type="bottom" id="Bzm-zF-zXg"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="qPQ-BQ-ais">
-                        <rect key="frame" x="0.0" y="20" width="320" height="499"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" text="Pano Graphic 360" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wFo-49-rwn">
@@ -58,7 +61,7 @@
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <constraints>
-                            <constraint firstItem="wFo-49-rwn" firstAttribute="centerX" secondItem="qPQ-BQ-ais" secondAttribute="centerX" type="default" id="gLn-Ut-Ch9"/>
+                            <constraint firstItem="wFo-49-rwn" firstAttribute="centerX" secondItem="qPQ-BQ-ais" secondAttribute="centerX" id="gLn-Ut-Ch9"/>
                             <constraint firstItem="wFo-49-rwn" firstAttribute="top" secondItem="qPQ-BQ-ais" secondAttribute="top" constant="176" id="ssE-ik-1xs"/>
                         </constraints>
                     </view>
@@ -93,12 +96,16 @@
         <scene sceneID="226-lm-gwI">
             <objects>
                 <viewController storyboardIdentifier="APLViewController" id="br2-mm-IR0" customClass="APLViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="RfS-Oo-05V"/>
+                        <viewControllerLayoutGuide type="bottom" id="WJu-2L-L8m"/>
+                    </layoutGuides>
                     <view key="view" contentMode="center" id="F7d-3q-Gj0" customClass="APLEAGLView">
-                        <rect key="frame" x="0.0" y="20" width="568" height="256"/>
+                        <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" alpha="0.80000000000000004" contentMode="scaleToFill" barStyle="blackTranslucent" translatesAutoresizingMaskIntoConstraints="NO" id="Kr3-To-eZH">
-                                <rect key="frame" x="0.0" y="212" width="568" height="44"/>
+                            <toolbar opaque="NO" clipsSubviews="YES" alpha="0.80000000000000004" contentMode="scaleToFill" barStyle="black" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kr3-To-eZH" userLabel="playbar">
+                                <rect key="frame" x="0.0" y="276" width="568" height="44"/>
                                 <items>
                                     <barButtonItem systemItem="rewind" id="gYc-mK-Ehb">
                                         <connections>
@@ -106,8 +113,8 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" id="hHS-zJ-iTv">
-                                        <slider key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" id="dii-GR-3bN">
-                                            <rect key="frame" x="52" y="-2" width="346" height="47"/>
+                                        <slider key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="center" minValue="0.0" maxValue="1" id="dii-GR-3bN">
+                                            <rect key="frame" x="50" y="-2" width="346" height="47"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <connections>
                                                 <action selector="beginScrubbing:" destination="br2-mm-IR0" eventType="touchDown" id="HQ2-O4-Blo"/>
@@ -121,8 +128,8 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <toolbar opaque="NO" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="Njv-Dx-NEZ">
-                                <rect key="frame" x="0.0" y="-1" width="568" height="44"/>
+                            <toolbar opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" barStyle="black" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Njv-Dx-NEZ" userLabel="topbar">
+                                <rect key="frame" x="0.0" y="-8" width="568" height="44"/>
                                 <items>
                                     <barButtonItem title="My Video" id="YHx-Hm-2b8">
                                         <connections>
@@ -133,7 +140,7 @@
                                     <barButtonItem style="plain" id="bT9-hx-XgY">
                                         <inset key="imageInsets" minX="0.0" minY="-1" maxX="0.0" maxY="0.0"/>
                                         <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="its-M2-T71">
-                                            <rect key="frame" x="203" y="8" width="161" height="31"/>
+                                            <rect key="frame" x="203" y="7" width="161" height="31"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <segments>
                                                 <segment title="Finger"/>
@@ -147,7 +154,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="6uc-IM-nLc"/>
                                     <barButtonItem title="Item" width="180" id="5gz-07-fga">
                                         <segmentedControl key="customView" opaque="NO" clipsSubviews="YES" alpha="0.59999999999999998" contentMode="topRight" highlighted="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="bar" selectedSegmentIndex="0" id="tE1-Tf-RfF">
-                                            <rect key="frame" x="382" y="8" width="180" height="31"/>
+                                            <rect key="frame" x="382" y="7" width="180" height="31"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <segments>
                                                 <segment title="Pano"/>
@@ -165,30 +172,19 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="Kr3-To-eZH" firstAttribute="leading" secondItem="F7d-3q-Gj0" secondAttribute="leading" type="default" id="4UE-Ro-Z3P"/>
-                            <constraint firstItem="Kr3-To-eZH" firstAttribute="leading" secondItem="Njv-Dx-NEZ" secondAttribute="leading" type="default" id="A41-rJ-jQc"/>
-                            <constraint firstItem="Njv-Dx-NEZ" firstAttribute="top" secondItem="F7d-3q-Gj0" secondAttribute="top" constant="-1" id="O75-lc-73V"/>
-                            <constraint firstAttribute="bottom" secondItem="Kr3-To-eZH" secondAttribute="bottom" type="default" id="RgP-f9-AYS"/>
-                            <constraint firstAttribute="trailing" secondItem="Kr3-To-eZH" secondAttribute="trailing" type="default" id="e4N-2T-xu0"/>
-                            <constraint firstItem="Njv-Dx-NEZ" firstAttribute="trailing" secondItem="Kr3-To-eZH" secondAttribute="trailing" type="default" id="mbi-YP-VAM"/>
+                            <constraint firstItem="Kr3-To-eZH" firstAttribute="leading" secondItem="F7d-3q-Gj0" secondAttribute="leading" id="4UE-Ro-Z3P"/>
+                            <constraint firstItem="Kr3-To-eZH" firstAttribute="leading" secondItem="Njv-Dx-NEZ" secondAttribute="leading" id="A41-rJ-jQc"/>
+                            <constraint firstItem="Njv-Dx-NEZ" firstAttribute="top" secondItem="F7d-3q-Gj0" secondAttribute="top" constant="-8" placeholder="YES" id="O75-lc-73V"/>
+                            <constraint firstAttribute="bottom" secondItem="Kr3-To-eZH" secondAttribute="bottom" id="RgP-f9-AYS"/>
+                            <constraint firstAttribute="trailing" secondItem="Kr3-To-eZH" secondAttribute="trailing" id="e4N-2T-xu0"/>
+                            <constraint firstItem="Njv-Dx-NEZ" firstAttribute="trailing" secondItem="Kr3-To-eZH" secondAttribute="trailing" id="mbi-YP-VAM"/>
                         </constraints>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="Dym-Nq-UaN" appends="YES" id="aeI-Q7-xHX"/>
                         </connections>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem systemItem="pause" id="Xbe-px-NP9">
-                            <connections>
-                                <action selector="pausePlayer:" destination="REQ-Sh-gma" id="Elz-gX-wgO"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem systemItem="play" id="e3W-Un-0sD">
-                            <connections>
-                                <action selector="playPlayer:" destination="REQ-Sh-gma" id="Pi2-gN-XfT"/>
-                            </connections>
-                        </barButtonItem>
-                    </toolbarItems>
+                    <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
@@ -204,6 +200,16 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="REQ-Sh-gma" sceneMemberID="firstResponder"/>
+                <barButtonItem systemItem="pause" id="Xbe-px-NP9">
+                    <connections>
+                        <action selector="pausePlayer:" destination="REQ-Sh-gma" id="Elz-gX-wgO"/>
+                    </connections>
+                </barButtonItem>
+                <barButtonItem systemItem="play" id="e3W-Un-0sD">
+                    <connections>
+                        <action selector="playPlayer:" destination="REQ-Sh-gma" id="Pi2-gN-XfT"/>
+                    </connections>
+                </barButtonItem>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="0:00:00 / 0:00:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="h5k-sf-hKT">
                     <rect key="frame" x="0.0" y="0.0" width="110" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -239,19 +245,18 @@
         <scene sceneID="Fb4-ZG-aZS">
             <objects>
                 <tableViewController id="zZw-s2-pkI" customClass="PVDownloadViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="k4v-Ik-Ulk">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="k4v-Ik-Ulk">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="io3-G6-70y">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="io3-G6-70y" id="oa8-pq-Ru5">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
+                                </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
                     </tableView>
@@ -279,19 +284,18 @@
         <scene sceneID="frn-Wo-Ltq">
             <objects>
                 <tableViewController id="t9p-Tw-Esw" customClass="PVOnlineViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="16v-HQ-eMA">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="16v-HQ-eMA">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="nBR-Hu-Z3Z">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nBR-Hu-Z3Z" id="1dy-L8-0dA">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
+                                </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
                     </tableView>
