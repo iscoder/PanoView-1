@@ -86,15 +86,18 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     
     
     // add scrubber and duration to toolbar
-    UIBarButtonItem *scrubberItem = [[UIBarButtonItem alloc] initWithCustomView:self.mScrubber];
+    self.mScrubber.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     UIBarButtonItem *durationItem = [[UIBarButtonItem alloc] initWithCustomView:self.mDuration];
     [durationItem setWidth:110];
     NSMutableArray *toolbarItems = [NSMutableArray arrayWithArray:[self.mToolbar items]];
-    [toolbarItems addObject:scrubberItem];
     [toolbarItems addObject:durationItem];
+    
+    UIBarButtonItem *flexible = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+
+    [toolbarItems addObject:flexible];
     [toolbarItems addObject:mPlayButton];
     self.mToolbar.items = toolbarItems;
-    
+
     motionManager = [[CMMotionManager alloc] init];
     mViewIsChanging = false;
     mforceViewRefresh = false;
@@ -222,7 +225,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 -(void)showStopButton
 {
     NSMutableArray *toolbarItems = [NSMutableArray arrayWithArray:[self.mToolbar items]];
-    [toolbarItems replaceObjectAtIndex:3 withObject:self.mStopButton];
+    [toolbarItems replaceObjectAtIndex:4 withObject:self.mStopButton];
     self.mToolbar.items = toolbarItems;
 }
 
@@ -230,7 +233,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 -(void)showPlayButton
 {
     NSMutableArray *toolbarItems = [NSMutableArray arrayWithArray:[self.mToolbar items]];
-    [toolbarItems replaceObjectAtIndex:3 withObject:self.mPlayButton];
+    [toolbarItems replaceObjectAtIndex:4 withObject:self.mPlayButton];
     self.mToolbar.items = toolbarItems;
 }
 

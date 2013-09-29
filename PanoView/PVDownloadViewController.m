@@ -43,7 +43,7 @@
 
 - (CGRect) progressRect
 {
-    return CGRectMake(10, 30, 270, 20);
+    return CGRectMake(10, 35, 270, 20);
 }
 
 @end
@@ -130,7 +130,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [mretryButton setEnabled:NO];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -325,6 +324,11 @@
 
 -(void)reloadData
 {
+    if (networkQueue.operationCount == [urlList count])
+        [mretryButton setEnabled:NO];
+    else
+        [mretryButton setEnabled:YES];
+    
     [self.tableView reloadData];
     if (networkQueue.requestsCount > 0)
     {
@@ -365,7 +369,6 @@
  */
     if (self.view != nil)
         [self reloadData];
-    [mretryButton setEnabled:YES];
 }
 
 @end

@@ -105,6 +105,20 @@
                                             <action selector="rewind:" destination="br2-mm-IR0" id="HID-sU-EVD"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem style="plain" id="hHS-zJ-iTv">
+                                        <slider key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" id="dii-GR-3bN">
+                                            <rect key="frame" x="52" y="-2" width="346" height="47"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <connections>
+                                                <action selector="beginScrubbing:" destination="br2-mm-IR0" eventType="touchDown" id="HQ2-O4-Blo"/>
+                                                <action selector="endScrubbing:" destination="br2-mm-IR0" eventType="touchUpOutside" id="1EP-WT-aav"/>
+                                                <action selector="endScrubbing:" destination="br2-mm-IR0" eventType="touchUpInside" id="1Qj-CN-c3x"/>
+                                                <action selector="endScrubbing:" destination="br2-mm-IR0" eventType="touchCancel" id="fVc-Il-wDI"/>
+                                                <action selector="scrub:" destination="br2-mm-IR0" eventType="valueChanged" id="1bw-lj-Qej"/>
+                                                <action selector="scrub:" destination="br2-mm-IR0" eventType="touchDragInside" id="ETv-pu-vw3"/>
+                                            </connections>
+                                        </slider>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                             <toolbar opaque="NO" clipsSubviews="YES" alpha="0.90000000000000002" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="Njv-Dx-NEZ">
@@ -174,20 +188,6 @@
                                 <action selector="playPlayer:" destination="REQ-Sh-gma" id="Pi2-gN-XfT"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem style="plain" id="hHS-zJ-iTv">
-                            <slider key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" id="dii-GR-3bN">
-                                <rect key="frame" x="89" y="5" width="280" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="beginScrubbing:" destination="br2-mm-IR0" eventType="touchDown" id="HQ2-O4-Blo"/>
-                                    <action selector="endScrubbing:" destination="br2-mm-IR0" eventType="touchUpOutside" id="1EP-WT-aav"/>
-                                    <action selector="endScrubbing:" destination="br2-mm-IR0" eventType="touchUpInside" id="1Qj-CN-c3x"/>
-                                    <action selector="endScrubbing:" destination="br2-mm-IR0" eventType="touchCancel" id="fVc-Il-wDI"/>
-                                    <action selector="scrub:" destination="br2-mm-IR0" eventType="valueChanged" id="1bw-lj-Qej"/>
-                                    <action selector="scrub:" destination="br2-mm-IR0" eventType="touchDragInside" id="ETv-pu-vw3"/>
-                                </connections>
-                            </slider>
-                        </barButtonItem>
                     </toolbarItems>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -205,7 +205,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="REQ-Sh-gma" sceneMemberID="firstResponder"/>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="0:00:00 / 0:00:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="h5k-sf-hKT">
-                    <rect key="frame" x="0.0" y="0.0" width="42" height="21"/>
+                    <rect key="frame" x="0.0" y="0.0" width="110" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
