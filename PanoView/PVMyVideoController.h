@@ -13,5 +13,6 @@
 @interface PVMyVideoController : UITableViewController
 
 - (void) reloadVideoFiles;
+- (bool) videoInTheLib:(NSString *)videoName;
 
 @end

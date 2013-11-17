@@ -10,4 +10,6 @@
 
 @interface PVOnlineViewController : UITableViewController
 
+- (void) reloadURLs;
+
 @end

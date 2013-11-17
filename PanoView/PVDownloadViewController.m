@@ -356,6 +356,7 @@
     // refresh MyVideo tab
     PVAppDelegate *appDelegate = (PVAppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate.vcMyVideo reloadVideoFiles];
+    [appDelegate.vcOnline reloadURLs];
 }
 
 

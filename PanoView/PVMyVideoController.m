@@ -40,6 +40,11 @@
         [self.tableView reloadData];
 }
 
+- (bool) videoInTheLib:(NSString *)videoName
+{
+    return [myVideoList containsObject:videoName];
+}
+
 - (void) viewDidLoad
 {
     [self reloadVideoFiles];
@@ -108,6 +113,10 @@
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         // Delete the file in Documents folder
         [[NSFileManager defaultManager] removeItemAtPath:videoFileName error:NULL];
+        
+        // refresh online library
+        PVAppDelegate *appDelegate = (PVAppDelegate *)[[UIApplication sharedApplication] delegate];
+        [appDelegate.vcOnline reloadURLs];
     }
 
 }

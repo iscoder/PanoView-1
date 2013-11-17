@@ -107,9 +107,13 @@
         [lines removeObject:@""];
         if ([lines count]%3 == 0)
         {
+            PVAppDelegate *appDelegate = (PVAppDelegate *)[[UIApplication sharedApplication] delegate];
             for ( int i = 0; i < [lines count] / 3; i++ )
             {
                 NSURL* url = [NSURL URLWithString:[lines objectAtIndex:(i*3+1)]];
+                NSString *urlFileName = [[url path] lastPathComponent];
+                if ([appDelegate.vcMyVideo videoInTheLib:urlFileName])
+                    continue;
                 [urlList addObject:url];
                 NSURL* thumbnail = [NSURL URLWithString:[lines objectAtIndex:(i*3+2)]];
                 
@@ -243,5 +247,11 @@
     
 }
 
+-(id) initWithCoder:(NSCoder *)aDecoder
+{
+    PVAppDelegate *appDelegate = (PVAppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.vcOnline = self;
+    return [super initWithCoder:aDecoder];
+}
 
 @end
