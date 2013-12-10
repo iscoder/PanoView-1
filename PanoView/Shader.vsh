@@ -29,7 +29,7 @@ varying float wrapR;
 
 void pano()
 {
-    float u = (texCoord.x - 0.5) * 1.77778; // (1920.0 / 1080.0);
+    float u = (0.5 - texCoord.x) * 1.77778; // (1920.0 / 1080.0);
     float v = texCoord.y - 0.5;
  
     float x = SCALE * cos_theta * cos_alpha + u * sin_alpha - v * sin_theta * cos_alpha;

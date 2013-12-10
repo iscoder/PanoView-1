@@ -533,7 +533,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     float yOffset = (touchLocation.y - self.playerView.touchInit.y) / 2.0;
     
     self.playerView.lattitude = MAX(0.0, MIN(1.0, self.playerView.prevLattitude - yOffset/self.playerView.layer.bounds.size.height));
-    self.playerView.longitude = self.playerView.prevLongitude + xOffset / self.playerView.layer.bounds.size.width;
+    self.playerView.longitude = self.playerView.prevLongitude - xOffset / self.playerView.layer.bounds.size.width;
     self.playerView.longitude -= floorf(self.playerView.longitude);
     [self.playerView updateInternal];
 }
