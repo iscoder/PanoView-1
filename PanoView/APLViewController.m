@@ -162,7 +162,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
         else
         {
             float longy = atan2f(invm[0][2], invm[1][2]);
-            self.playerView.longitude += (motionRefLongitude - longy) / (M_PI * 2.0);
+            self.playerView.longitude += (longy - motionRefLongitude) / (M_PI * 2.0);
             self.playerView.longitude -= floorf(self.playerView.longitude);
             motionRefLongitude = longy;
             
