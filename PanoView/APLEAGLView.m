@@ -9,6 +9,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <AVFoundation/AVUtilities.h>
 #import <mach/mach_time.h>
+#import <sys/utsname.h>
 
 // Uniform index.
 enum
@@ -65,8 +66,9 @@ static const GLfloat kColorConversion709[] = {
 	
 	GLuint _frameBufferHandle;
 	GLuint _colorBufferHandle;
-    
+	
 	const GLfloat *_preferredConversion;
+    bool use64Shader;
 }
 
 @property GLuint program;
@@ -78,6 +80,8 @@ static const GLfloat kColorConversion709[] = {
 - (BOOL)compileShader:(GLuint *)shader type:(GLenum)type URL:(NSURL *)URL;
 - (BOOL)linkProgram:(GLuint)prog;
 - (BOOL)validateProgram:(GLuint)prog;
+- (NSString*)machineName;
+
 
 @end
 
@@ -111,8 +115,28 @@ static const GLfloat kColorConversion709[] = {
 		
 		// Set the default conversion to BT.709, which is the standard for HDTV.
 		_preferredConversion = kColorConversion709;
+        
+        NSString* deviceName = [self machineName];
+        NSLog(@"device Name");
+        NSLog(deviceName);
+
+        use64Shader = [deviceName isEqualToString:@"iPhone6,1"] ||      // iPhone 5s
+                      [deviceName isEqualToString:@"iPhone6,2"] ||
+                      [deviceName isEqualToString:@"iPad4,1"] ||        // iPad Air
+                      [deviceName isEqualToString:@"iPad4,2"] ||
+                      [deviceName isEqualToString:@"iPad4,4"] ||        // iPad Mini 2nd Gen
+                      [deviceName isEqualToString:@"iPad4,5"] ;
 	}
 	return self;
+}
+
+- (NSString*) machineName
+{
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    
+    return [NSString stringWithCString:systemInfo.machine
+                              encoding:NSUTF8StringEncoding];
 }
 
 # pragma mark - OpenGL setup
@@ -345,70 +369,81 @@ static const GLfloat kColorConversion709[] = {
      The quad vertex data defines the region of 2D plane onto which we draw our pixel buffers.
      Vertex data formed using (-1,-1) and (1,1) as the bottom left and top right coordinates respectively, covers the entire screen.
      */
-    const int panoSampleW = 80;
-    const int panoSampleH = 80;
-    GLfloat quadVertexData [panoSampleW * panoSampleH * 2];
-    GLfloat quadTextureData[panoSampleW * panoSampleH * 2];
-    for (int i = 0; i < panoSampleW; i++)
+    if (use64Shader)
     {
-        for ( int j = 0; j < panoSampleH; j++)
-        {
-            quadVertexData[i*panoSampleH*2+j*2] = ((float)j / (panoSampleH-1) * 2.0 - 1) * normalizedSamplingSize.width;
-            quadVertexData[i*panoSampleH*2+j*2+1] = ( (float)i / (panoSampleW-1) * 2.0 - 1) * normalizedSamplingSize.height;
-            
-            quadTextureData[i*panoSampleH*2+j*2] = (float)j / (panoSampleH-1);
-            quadTextureData[i*panoSampleH*2+j*2+1] = 1.0 - (float)i / (panoSampleW-1);
-        }
-    }
-    /*
-	GLfloat quadVertexData [] = {
-		-1 * normalizedSamplingSize.width, -1 * normalizedSamplingSize.height,
-			 normalizedSamplingSize.width, -1 * normalizedSamplingSize.height,
-		-1 * normalizedSamplingSize.width, normalizedSamplingSize.height,
-			 normalizedSamplingSize.width, normalizedSamplingSize.height,
-	};
-     */
-	/*
-     The texture vertices are set up such that we flip the texture vertically. This is so that our top left origin buffers match OpenGL's bottom left texture coordinate system.
-     */
-    /*
-    CGRect textureSamplingRect = CGRectMake(0, 0, 1, 1);
-	GLfloat quadTextureData[] =  {
-		CGRectGetMinX(textureSamplingRect), CGRectGetMaxY(textureSamplingRect),
-		CGRectGetMaxX(textureSamplingRect), CGRectGetMaxY(textureSamplingRect),
-		CGRectGetMinX(textureSamplingRect), CGRectGetMinY(textureSamplingRect),
-		CGRectGetMaxX(textureSamplingRect), CGRectGetMinY(textureSamplingRect)
-	};
-     */
+        GLfloat quadVertexData [] = {
+            -1 * normalizedSamplingSize.width, -1 * normalizedSamplingSize.height,
+                normalizedSamplingSize.width, -1 * normalizedSamplingSize.height,
+            -1 * normalizedSamplingSize.width, normalizedSamplingSize.height,
+                normalizedSamplingSize.width, normalizedSamplingSize.height,
+        };
 	
-    // Update attribute values.
-	glVertexAttribPointer(ATTRIB_VERTEX, 2, GL_FLOAT, 0, 0, quadVertexData);
-	glEnableVertexAttribArray(ATTRIB_VERTEX);
+        // Update attribute values.
+        glVertexAttribPointer(ATTRIB_VERTEX, 2, GL_FLOAT, 0, 0, quadVertexData);
+        glEnableVertexAttribArray(ATTRIB_VERTEX);
 
-	glVertexAttribPointer(ATTRIB_TEXCOORD, 2, GL_FLOAT, 0, 0, quadTextureData);
-	glEnableVertexAttribArray(ATTRIB_TEXCOORD);
+        /*
+         The texture vertices are set up such that we flip the texture vertically. This is so that our top left origin buffers match OpenGL's bottom left texture coordinate system.
+         */
+        CGRect textureSamplingRect = CGRectMake(0, 0, 1, 1);
+        GLfloat quadTextureData[] =  {
+            CGRectGetMinX(textureSamplingRect), CGRectGetMaxY(textureSamplingRect),
+            CGRectGetMaxX(textureSamplingRect), CGRectGetMaxY(textureSamplingRect),
+            CGRectGetMinX(textureSamplingRect), CGRectGetMinY(textureSamplingRect),
+            CGRectGetMaxX(textureSamplingRect), CGRectGetMinY(textureSamplingRect)
+        };
 	
-	// glDrawArrays(GL_TRIANGLE_STRIP, 0, panoSample*panoSample);
-    GLuint indices [(panoSampleH-1)*(panoSampleW-1)*6];
-    for (int i = 1; i < panoSampleH; i++)
-    {
-        for ( int j = 1; j < panoSampleW; j++)
-        {
-            int base = ((i-1) * (panoSampleW-1) + (j-1)) * 6;
-            indices[base] = (j-1) * panoSampleH + i-1;
-            indices[base+1] = (j-1) * panoSampleH + i;
-            indices[base+2] = j*panoSampleH + (i-1);
-            indices[base+3] = (j-1) * panoSampleH + i;
-            indices[base+4] = j*panoSampleH + (i-1);
-            indices[base+5] = j*panoSampleH + i;
-        }
+        glVertexAttribPointer(ATTRIB_TEXCOORD, 2, GL_FLOAT, 0, 0, quadTextureData);
+        glEnableVertexAttribArray(ATTRIB_TEXCOORD);
+	
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     }
-    
-    glDrawElements(GL_TRIANGLES, (panoSampleH-1)*(panoSampleW-1)*6, GL_UNSIGNED_INT,indices);
+    else // optimized shader -- used for older devices
+    {
+        const int panoSampleW = 80;
+        const int panoSampleH = 80;
+        GLfloat quadVertexData [panoSampleW * panoSampleH * 2];
+        GLfloat quadTextureData[panoSampleW * panoSampleH * 2];
+        for (int i = 0; i < panoSampleW; i++)
+        {
+            for ( int j = 0; j < panoSampleH; j++)
+            {
+                quadVertexData[i*panoSampleH*2+j*2] = ((float)j / (panoSampleH-1) * 2.0 - 1) * normalizedSamplingSize.width;
+                quadVertexData[i*panoSampleH*2+j*2+1] = ( (float)i / (panoSampleW-1) * 2.0 - 1) * normalizedSamplingSize.height;
+                
+                quadTextureData[i*panoSampleH*2+j*2] = (float)j / (panoSampleH-1);
+                quadTextureData[i*panoSampleH*2+j*2+1] = 1.0 - (float)i / (panoSampleW-1);
+            }
+        }
+        // Update attribute values.
+        glVertexAttribPointer(ATTRIB_VERTEX, 2, GL_FLOAT, 0, 0, quadVertexData);
+        glEnableVertexAttribArray(ATTRIB_VERTEX);
+        
+        glVertexAttribPointer(ATTRIB_TEXCOORD, 2, GL_FLOAT, 0, 0, quadTextureData);
+        glEnableVertexAttribArray(ATTRIB_TEXCOORD);
+        
+        // glDrawArrays(GL_TRIANGLE_STRIP, 0, panoSample*panoSample);
+        GLuint indices [(panoSampleH-1)*(panoSampleW-1)*6];
+        for (int i = 1; i < panoSampleH; i++)
+        {
+            for ( int j = 1; j < panoSampleW; j++)
+            {
+                int base = ((i-1) * (panoSampleW-1) + (j-1)) * 6;
+                indices[base] = (j-1) * panoSampleH + i-1;
+                indices[base+1] = (j-1) * panoSampleH + i;
+                indices[base+2] = j*panoSampleH + (i-1);
+                indices[base+3] = (j-1) * panoSampleH + i;
+                indices[base+4] = j*panoSampleH + (i-1);
+                indices[base+5] = j*panoSampleH + i;
+            }
+        }
+        glDrawElements(GL_TRIANGLES, (panoSampleH-1)*(panoSampleW-1)*6, GL_UNSIGNED_INT,indices);
+    }
 
 	glBindRenderbuffer(GL_RENDERBUFFER, _colorBufferHandle);
 	[_context presentRenderbuffer:GL_RENDERBUFFER];
 }
+
 
 #pragma mark -  OpenGL ES 2 shader compilation
 
@@ -419,16 +454,22 @@ static const GLfloat kColorConversion709[] = {
 	
 	// Create the shader program.
 	self.program = glCreateProgram();
+    
+    NSString *shaderName = @"Shader";
+    if (use64Shader) {
+        shaderName = @"Shader64";
+    }
+
 	
 	// Create and compile the vertex shader.
-	vertShaderURL = [[NSBundle mainBundle] URLForResource:@"Shader" withExtension:@"vsh"];
+	vertShaderURL = [[NSBundle mainBundle] URLForResource:shaderName withExtension:@"vsh"];
 	if (![self compileShader:&vertShader type:GL_VERTEX_SHADER URL:vertShaderURL]) {
 		NSLog(@"Failed to compile vertex shader");
 		return NO;
 	}
 	
 	// Create and compile fragment shader.
-	fragShaderURL = [[NSBundle mainBundle] URLForResource:@"Shader" withExtension:@"fsh"];
+	fragShaderURL = [[NSBundle mainBundle] URLForResource:shaderName withExtension:@"fsh"];
 	if (![self compileShader:&fragShader type:GL_FRAGMENT_SHADER URL:fragShaderURL]) {
 		NSLog(@"Failed to compile fragment shader");
 		return NO;
