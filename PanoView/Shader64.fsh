@@ -6,13 +6,14 @@
  */
 
 #define PI 3.14159265
-#define SCALE 1.0
+// #define SCALE 1.0
 
 varying highp vec2 texCoordVarying;
 precision mediump float;
 
 uniform float longitude;
 uniform float lattitude;
+uniform float scale;
 uniform float whratio;
 uniform int viewChoice;
 uniform sampler2D SamplerY;
@@ -34,9 +35,9 @@ void pano()
 	float u = (0.5 - texCoordVarying.x) * (1920.0 / 1080.0);
 	float v = texCoordVarying.y - 0.5;
 	
-	float x = SCALE * cos_theta * cos_alpha + u * sin_alpha - v * sin_theta * cos_alpha;
-	float y = SCALE * cos_theta * sin_alpha - u * cos_alpha - v * sin_theta * sin_alpha;
-	float z = SCALE * sin_theta + v * cos_theta;
+	float x = scale * cos_theta * cos_alpha + u * sin_alpha - v * sin_theta * cos_alpha;
+	float y = scale * cos_theta * sin_alpha - u * cos_alpha - v * sin_theta * sin_alpha;
+	float z = scale * sin_theta + v * cos_theta;
 	
 	float s_ = sqrt (x*x+y*y+z*z);
 	float theta_ = atan( z / (sqrt(x*x + y*y)) );

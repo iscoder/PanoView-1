@@ -18,6 +18,7 @@ enum
 	UNIFORM_UV,
 	UNIFORM_LONGITUDE,
 	UNIFORM_LATTITUDE,
+    UNIFORM_SCALE,
 	UNIFORM_ROTATION_ANGLE,
     UNIFORM_VIEW_CHOICE,
     UNIFORM_SIN_ALPHA,
@@ -116,6 +117,7 @@ static const GLfloat kColorConversion709[] = {
 		// Set the default conversion to BT.709, which is the standard for HDTV.
 		_preferredConversion = kColorConversion709;
         
+        
         NSString* deviceName = [self machineName];
         NSLog(@"device Name");
         NSLog(deviceName);
@@ -154,6 +156,7 @@ static const GLfloat kColorConversion709[] = {
 	glUniform1i(uniforms[UNIFORM_UV], 1);
 	glUniform1f(uniforms[UNIFORM_LONGITUDE], self.longitude);
 	glUniform1f(uniforms[UNIFORM_LATTITUDE], self.lattitude);
+    glUniform1f(uniforms[UNIFORM_SCALE], self.scale);
 	glUniform1f(uniforms[UNIFORM_ROTATION_ANGLE], self.preferredRotation);
     glUniform1i(uniforms[UNIFORM_VIEW_CHOICE], self.viewChoice);
     glUniform1f(uniforms[UNIFORM_SIN_ALPHA], self.sin_alpha);
@@ -339,6 +342,7 @@ static const GLfloat kColorConversion709[] = {
 	glUseProgram(self.program);
 	glUniform1f(uniforms[UNIFORM_LONGITUDE], self.longitude);
 	glUniform1f(uniforms[UNIFORM_LATTITUDE], self.lattitude);
+    glUniform1f(uniforms[UNIFORM_SCALE], self.scale);
 	glUniform1f(uniforms[UNIFORM_ROTATION_ANGLE], self.preferredRotation);
     glUniform1i(uniforms[UNIFORM_VIEW_CHOICE], self.viewChoice);
     glUniform1f(uniforms[UNIFORM_SIN_ALPHA], self.sin_alpha);
@@ -510,6 +514,7 @@ static const GLfloat kColorConversion709[] = {
 	uniforms[UNIFORM_UV] = glGetUniformLocation(self.program, "SamplerUV");
 	uniforms[UNIFORM_LONGITUDE] = glGetUniformLocation(self.program, "longitude");
 	uniforms[UNIFORM_LATTITUDE] = glGetUniformLocation(self.program, "lattitude");
+    uniforms[UNIFORM_SCALE] = glGetUniformLocation(self.program, "scale");
 	uniforms[UNIFORM_ROTATION_ANGLE] = glGetUniformLocation(self.program, "preferredRotation");
     uniforms[UNIFORM_VIEW_CHOICE] = glGetUniformLocation(self.program, "viewChoice");
     uniforms[UNIFORM_SIN_ALPHA] = glGetUniformLocation(self.program, "sin_alpha");

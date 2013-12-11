@@ -31,6 +31,8 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     float motionRefLattitude;
     bool motionRefLongitudeIsSet;
     
+    float mLastScale;
+    
     CMMotionManager *motionManager;
     NSTimer *gyroTimer;
 }
@@ -67,6 +69,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 	
     self.playerView.longitude = 0.5;
     self.playerView.lattitude = 0.5;
+    self.playerView.scale = 0.8;
     [self.playerView updateInternal];
 
 	_player = [[AVPlayer alloc] init];
@@ -112,6 +115,21 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
         self.mTopBar.frame = frame;
         mToolbar.tintColor = [UIColor whiteColor];
     }
+    
+    // add pinch recognizer
+    UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(scale:)] ;
+	[pinchRecognizer setDelegate:self];
+	[self.view addGestureRecognizer:pinchRecognizer];
+}
+
+-(void)scale:(id)sender {
+    
+    if([(UIPinchGestureRecognizer*)sender state] == UIGestureRecognizerStateBegan) {
+        mLastScale = self.playerView.scale;
+    }
+    
+    self.playerView.scale = MIN(2.0, MAX(mLastScale + [(UIPinchGestureRecognizer*)sender scale] - 1.0, 0.5));
+//     mLastScale = (UIPinchGestureRecognizer*)sender scale;
 }
 
 -(void)startGyro {

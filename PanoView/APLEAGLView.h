@@ -24,6 +24,7 @@
 @property GLfloat prevLattitude;
 @property GLfloat prevLongitude;
 @property GLint   viewChoice;
+@property GLfloat scale;
 
 @property GLfloat sin_theta;
 @property GLfloat cos_theta;

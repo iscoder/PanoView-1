@@ -20,6 +20,7 @@ uniform float sin_alpha;
 
 uniform float longitude;
 uniform float lattitude;
+uniform float scale;
 uniform int viewChoice;
 
 varying vec2 texCoordVarying;
@@ -32,9 +33,9 @@ void pano()
     float u = (0.5 - texCoord.x) * 1.77778; // (1920.0 / 1080.0);
     float v = texCoord.y - 0.5;
  
-    float x = SCALE * cos_theta * cos_alpha + u * sin_alpha - v * sin_theta * cos_alpha;
-	float y = SCALE * cos_theta * sin_alpha - u * cos_alpha - v * sin_theta * sin_alpha;
-	float z = SCALE * sin_theta + v * cos_theta;
+    float x = scale * cos_theta * cos_alpha + u * sin_alpha - v * sin_theta * cos_alpha;
+	float y = scale * cos_theta * sin_alpha - u * cos_alpha - v * sin_theta * sin_alpha;
+	float z = scale * sin_theta + v * cos_theta;
 
     float theta_ = atan ( z / (sqrt(x*x + y * y)));
     float alpha_ = atan ( y / x );
