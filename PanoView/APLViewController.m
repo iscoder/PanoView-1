@@ -30,6 +30,7 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
     float motionRefLongitude;
     float motionRefLattitude;
     bool motionRefLongitudeIsSet;
+    int buffer;
     
     float mLastScale;
     
@@ -134,12 +135,14 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
 
 -(void)startGyro {
     [motionManager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXArbitraryZVertical];
-    gyroTimer = [NSTimer scheduledTimerWithTimeInterval:1/30.0
+    
+    gyroTimer = [NSTimer scheduledTimerWithTimeInterval:1/60.0
 												 target:self
 											   selector:@selector(doGyroUpdate)
 											   userInfo:nil
 												repeats:YES];
     motionRefLongitudeIsSet = false;
+    buffer = 0;
     mViewIsChanging = true;
 }
 
@@ -175,7 +178,10 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
         {
             motionRefLongitude = atan2f(invm[0][2], invm[1][2]);
             motionRefLattitude = asin(invm[2][2]);
-            motionRefLongitudeIsSet = true;
+            buffer++;
+            if (buffer >= 30)
+                motionRefLongitudeIsSet = true;
+            
         }
         else
         {
@@ -188,10 +194,11 @@ static void *AVPlayerItemStatusContext = &AVPlayerItemStatusContext;
             self.playerView.lattitude += (latte - motionRefLattitude) / M_PI;
             self.playerView.lattitude = MAX(0.0, MIN(1.0, self.playerView.lattitude));
             motionRefLattitude = latte;
+            
+            [self.playerView updateInternal];
         }
     }
 
-    [self.playerView updateInternal];
 
     
 /*

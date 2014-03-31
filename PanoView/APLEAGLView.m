@@ -25,6 +25,7 @@ enum
     UNIFORM_SIN_THETA,
     UNIFORM_COS_ALPHA,
     UNIFORM_COS_THETA,
+    UNIFORM_ASRATIO,
 	UNIFORM_COLOR_CONVERSION_MATRIX,
 	NUM_UNIFORMS
 };
@@ -163,6 +164,7 @@ static const GLfloat kColorConversion709[] = {
     glUniform1f(uniforms[UNIFORM_COS_ALPHA], self.cos_alpha);
     glUniform1f(uniforms[UNIFORM_SIN_THETA], self.sin_theta);
     glUniform1f(uniforms[UNIFORM_COS_THETA], self.cos_theta);
+    glUniform1f(uniforms[UNIFORM_ASRATIO], (float)(_backingWidth) / _backingHeight);
 	glUniformMatrix3fv(uniforms[UNIFORM_COLOR_CONVERSION_MATRIX], 1, GL_FALSE, _preferredConversion);
 	
 	// Create CVOpenGLESTextureCacheRef for optimal CVPixelBufferRef to GLES texture conversion.
@@ -349,11 +351,12 @@ static const GLfloat kColorConversion709[] = {
     glUniform1f(uniforms[UNIFORM_COS_ALPHA], self.cos_alpha);
     glUniform1f(uniforms[UNIFORM_SIN_THETA], self.sin_theta);
     glUniform1f(uniforms[UNIFORM_COS_THETA], self.cos_theta);
-
+    glUniform1f(uniforms[UNIFORM_ASRATIO], (float)_backingWidth / _backingHeight);
 	glUniformMatrix3fv(uniforms[UNIFORM_COLOR_CONVERSION_MATRIX], 1, GL_FALSE, _preferredConversion);
 	
 	// Set up the quad vertices with respect to the orientation and aspect ratio of the video.
-	CGRect vertexSamplingRect = AVMakeRectWithAspectRatioInsideRect(self.presentationRect, self.layer.bounds);
+    CGSize tt = CGSizeMake(_backingWidth, _backingHeight);
+	CGRect vertexSamplingRect = AVMakeRectWithAspectRatioInsideRect(tt, self.layer.bounds);
 	
 	// Compute normalized quad coordinates to draw the frame into.
 	CGSize normalizedSamplingSize = CGSizeMake(0.0, 0.0);
@@ -521,6 +524,7 @@ static const GLfloat kColorConversion709[] = {
     uniforms[UNIFORM_COS_ALPHA] = glGetUniformLocation(self.program, "cos_alpha");
     uniforms[UNIFORM_SIN_THETA] = glGetUniformLocation(self.program, "sin_theta");
     uniforms[UNIFORM_COS_THETA] = glGetUniformLocation(self.program, "cos_theta");
+    uniforms[UNIFORM_ASRATIO] = glGetUniformLocation(self.program, "asRatio");
     
 	uniforms[UNIFORM_COLOR_CONVERSION_MATRIX] = glGetUniformLocation(self.program, "colorConversionMatrix");
 	

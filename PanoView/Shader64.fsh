@@ -14,7 +14,7 @@ precision mediump float;
 uniform float longitude;
 uniform float lattitude;
 uniform float scale;
-uniform float whratio;
+uniform float asRatio;
 uniform int viewChoice;
 uniform sampler2D SamplerY;
 uniform sampler2D SamplerUV;
@@ -32,7 +32,7 @@ void pano()
 	lowp vec3 rgb;
 
 	float twopi = PI * 2.0;
-	float u = (0.5 - texCoordVarying.x) * (1920.0 / 1080.0);
+	float u = (0.5 - texCoordVarying.x) * asRatio;
 	float v = texCoordVarying.y - 0.5;
 	
 	float x = scale * cos_theta * cos_alpha + u * sin_alpha - v * sin_theta * cos_alpha;
@@ -68,7 +68,7 @@ void littleplanet()
 	float twopi = PI * 2.0;
 	float alpha = longitude * twopi;
 	
-	float u = (texCoordVarying.x - 0.5) * 8.0 * (1920.0 / 1080.0);
+	float u = (texCoordVarying.x - 0.5) * 8.0 * asRatio;
 	float v = (texCoordVarying.y - 0.5) * 8.0;
 	
 	float rho = sqrt( u * u + v * v);

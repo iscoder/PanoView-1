@@ -18,6 +18,7 @@ uniform float cos_alpha;
 uniform float sin_theta;
 uniform float sin_alpha;
 
+uniform float asRatio;
 uniform float longitude;
 uniform float lattitude;
 uniform float scale;
@@ -30,7 +31,7 @@ varying float wrapR;
 
 void pano()
 {
-    float u = (0.5 - texCoord.x) * 1.77778; // (1920.0 / 1080.0);
+    float u = (0.5 - texCoord.x) * asRatio; // (1920.0 / 1080.0);
     float v = texCoord.y - 0.5;
  
     float x = scale * cos_theta * cos_alpha + u * sin_alpha - v * sin_theta * cos_alpha;
@@ -53,7 +54,7 @@ void littleplanet()
     
 	float alpha = longitude * TWOPI;
 	
-	float u = (texCoord.x - 0.5) * 8.0 * 1.77778; // (1920.0 / 1080.0);
+	float u = (texCoord.x - 0.5) * 8.0 * asRatio; // (1920.0 / 1080.0);
 	float v = (texCoord.y - 0.5) * 8.0;
     
 	float rho = sqrt( u * u + v * v);
